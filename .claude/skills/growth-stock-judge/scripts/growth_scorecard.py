@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from typing import Any, Dict
 
 # Factor weights sum to 100. First six are "quality" factors (max 80),
 # last two are "entry/price" factors (max 20) so price affects the verdict
@@ -70,7 +71,7 @@ TEMPLATE = {
 }
 
 
-def _num_0_to_5(value, label):
+def _num_0_to_5(value: Any, label: str) -> float:
     try:
         number = float(value)
     except (TypeError, ValueError):
@@ -80,7 +81,13 @@ def _num_0_to_5(value, label):
     return number
 
 
-def verdict_for(final_score):
+def _require_object(value: Any, label: str) -> Dict[str, Any]:
+    if not isinstance(value, dict):
+        raise SystemExit(f"{label} must be an object")
+    return value
+
+
+def verdict_for(final_score: float) -> str:
     if final_score >= 85:
         return "强信心值得投资"
     if final_score >= 70:
@@ -90,8 +97,12 @@ def verdict_for(final_score):
     return "暂不值得 / 回避"
 
 
-def load_input(path):
-    raw = sys.stdin.read() if path == "-" else open(path, "r", encoding="utf-8").read()
+def load_input(path: str) -> Dict[str, Any]:
+    if path == "-":
+        raw = sys.stdin.read()
+    else:
+        with open(path, "r", encoding="utf-8") as f:
+            raw = f.read()
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as exc:
@@ -101,10 +112,10 @@ def load_input(path):
     return data
 
 
-def score(data):
-    factors = data.get("factors", {})
-    penalties = data.get("penalties", {})
-    red_lines = data.get("red_lines", {})
+def score(data: Dict[str, Any]) -> Dict[str, Any]:
+    factors = _require_object(data.get("factors", {}), "factors")
+    penalties = _require_object(data.get("penalties", {}), "penalties")
+    red_lines = _require_object(data.get("red_lines", {}), "red_lines")
 
     factor_details = {}
     quality_points = 0.0
@@ -155,7 +166,7 @@ def score(data):
     }
 
 
-def to_markdown(result):
+def to_markdown(result: Dict[str, Any]) -> str:
     title = result.get("ticker") or "Unknown"
     if result.get("company"):
         title += f" ({result['company']})"
@@ -181,7 +192,16 @@ def to_markdown(result):
     return "\n".join(lines) + "\n"
 
 
-def main():
+def main() -> None:
+    # The verdict/red-line output is Chinese with an emoji banner (U+26A0). On
+    # Windows the default console encoding is often gbk (cp936), which cannot
+    # encode that emoji and crashes plain print(). Force UTF-8 so the headline
+    # red-line path works out of the box without requiring PYTHONIOENCODING.
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="Score a growth-stock judgment")
     parser.add_argument("input", nargs="?", help="JSON file, or '-' for stdin")
     parser.add_argument("--template", action="store_true", help="Print a JSON template")
