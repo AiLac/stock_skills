@@ -43,4 +43,4 @@
 
 ## 走查示例
 
-- [ ] `examples/spcx-demo.md`：以 SPCX 完整跑一遍展示报告形态（数据真实性见设计文档第 3 节注：拿不到真实数据则标注「形态演示 / illustrative shape，数字仅示意」）。
+- [ ] `examples/tsla-demo.md`：以 TSLA 多 agent 完整跑一遍的**真实**走查（联网取证、来源全程超链接、催化日历排密、能查的查进正文），内部一致（嵌入的评分卡 JSON 经脚本算出的 verdict 与报告结论一致）。

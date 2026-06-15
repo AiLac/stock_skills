@@ -32,7 +32,7 @@
 4. **⚠️ 风险与利空** — 结构性风险 → 资金面（解禁/增发/内部人卖出/降评级）→ 期权市场解读 → 下行情景 → kill-switch 清单
 5. 催化/日历（带日期）+ **可点击的来源链接**
 
-样例见 [`.claude/skills/growth-stock-judge/examples/spcx-demo.md`](.claude/skills/growth-stock-judge/examples/spcx-demo.md)。
+样例见 [`.claude/skills/growth-stock-judge/examples/tsla-demo.md`](.claude/skills/growth-stock-judge/examples/tsla-demo.md)（TSLA 真实走查）。
 
 ### 工作原理
 **fan-out → synthesize**：并行分派 7 个研究子代理（公司画像 / 财报 / 增长 / 护城河+单位经济 / 估值 / 风险 / 筹码面+期权），各自联网取证，再由综合代理跑评分卡、写结论。无多 agent 能力时自动单 agent 顺序兜底。评分卡是个独立可复现的 Python 脚本（`scripts/growth_scorecard.py`）。
