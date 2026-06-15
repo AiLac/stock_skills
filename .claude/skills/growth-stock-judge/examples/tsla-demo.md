@@ -49,8 +49,24 @@
 | valuation_growth_match | 1.0 | 12 | 2.4 | 买点 |
 | entry_expectations | 1.0 | 8 | 1.6 | 买点 |
 
-**惩罚项（×2，合计 −42.0）**：governance 4（−8）｜competition_disruption 3.5（−7）｜regulation_geopolitics 3.5（−7）｜liquidity_bubble 3（−6）｜customer_concentration 2（−4）｜accounting_quality 2（−4）｜lockup_insider_supply 2（−4）｜dilution_financing 1（−2）
-**红线**：均为 false。⚠️ 风险代理把 `core_customer_loss` 标为 TRUE（创始客群流失）；综合代理**不当硬红线封顶**——因为 Tesla Q1 仍[夺回全球纯电销量第一](https://carboncredits.com/tesla-reclaims-ev-crown-from-byd-in-q1-2026-tsla-stock/)、中国一季度回暖，属严重"惩罚级"风险而非致命单客户流失；但若美/欧份额继续下滑则升级为红线（见 kill-switch）。
+### 惩罚项（×2 倍率，合计扣 42.0 分）
+| 惩罚项 | 评分(0-5) | 扣分 | 理由 |
+|---|---:|---:|---|
+| governance | 4 | 8.0 | 董事会被实质俘获、覆盖法院裁决批 $56B 薪酬、未约束 Musk 跨 5 家公司分心（Harvard Law / 公司治理研究所均点名） |
+| competition_disruption | 3.5 | 7.0 | 三重夹击：Waymo 实景 L4 领先、BYD+华为 ADS 蚕食中国、撑利润的监管积分面临立法取消 |
+| regulation_geopolitics | 3.5 | 7.0 | NHTSA 对 320 万辆 FSD 升级工程分析（recall 前一步）；Robotaxi 全国部署无联邦批准；加州仍需人类驾驶 |
+| liquidity_bubble | 3 | 6.0 | 散户/meme 资金集中、约 $300+/股纯期权溢价、ATH 三周回撤 25% 的泡沫式波动 |
+| customer_concentration | 2 | 4.0 | 无单一大客户，但高度依赖美/中两大承压市场，欧洲塌方削弱分散度 |
+| accounting_quality | 2 | 4.0 | 一次性保修/关税项美化毛利且拒绝拆分；FSD 订阅数含历史购买者、口径偏松 |
+| lockup_insider_supply | 2 | 4.0 | 董事会成员（Denholm/Kimbal/Wilson-Thompson）持续 10b5-1 减持；Musk 本人无公开市场卖出 |
+| dilution_financing | 1 | 2.0 | 304M+424M 股薪酬期权锁定至 2028-2033，近期流通盘稀释低，仅 $9.97B SBC 入表拖累 |
+
+### 红线（kill-switch）
+| 红线 | 状态 | 说明 |
+|---|:--:|---|
+| accounting_fraud_suspicion | 未触发 | 一次性项与监管积分是披露质量问题、非造假；无 SEC 立案，报表 GAAP 合规 |
+| core_customer_loss | 未触发（接近） | 风险代理标 TRUE（[欧洲 -44%](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-decline/)、美国 8 年低份额、创始客群流失）；综合代理判为**严重惩罚级**而非硬红线——Tesla 仍[夺回全球纯电第一](https://carboncredits.com/tesla-reclaims-ev-crown-from-byd-in-q1-2026-tsla-stock/)、中国一季度回暖；**若美/欧份额继续下滑则升级为红线封顶** |
+| growth_engine_broken | 未触发 | 营收重新加速 +16%、毛利从低谷回升；但"下一代引擎"(Robotaxi/Optimus) 商业化≈0，二元性极大 |
 
 ## 投资逻辑
 多头逻辑几乎全押在"自动驾驶 + 人形机器人"两个期权：可复用的 FSD 数据飞轮（[10B+ 累计英里、29M/天](https://electrek.co/2026/05/03/tesla-fsd-10-billion-miles-no-magical-milestone-autonomy/)）、Supercharger/NACS 充电标准、储能（Megapack）高增长。问题是：**今天的生意支撑不了今天的估值**——汽车在利润低谷、品牌在核心市场流失，而 Robotaxi/Optimus 的商业化要到 2027+ 才有意义。$1.53T 市值里约 $300+/股是纯期权溢价，安全边际几乎为零。
@@ -105,20 +121,31 @@
 4. **美/欧份额继续下滑** → `core_customer_loss` 从"严重惩罚"升级为**红线封顶**。
 
 ## 结论复述 + 下一步要核实 + 催化/日历
-- **复述**：中等的生意（质量 54）+ 几乎完美定价（买点 20）+ 治理/监管/竞争/品牌四重风险（惩罚 −42）＝ **现价回避**，等估值大幅回落或 Robotaxi 真放量再看。
-- **下一步要核实**（剩余真取不到的）：① 期权 **skew / 财报隐含跳空**（需实时期权终端）；② **Q2 财报确切日期**（7/22 与 7/29 两说，查 ir.tesla.com）；③ NHTSA 工程分析**结论**；④ Robotaxi 扩城**实际进度**与车队规模；⑤ 净化一次性项后的**真实汽车毛利**（待 Q2）。
-- **催化 / 日历**：
-  | 日期/窗口 | 事件 | 强度 |
-  |---|---|---|
-  | **2026-06-16/17** | [FOMC 议息](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm)（高估值成长股对利率敏感） | 强 |
-  | **~2026-07-02** | Q2 交付与产量报告（库存悬念验证点） | 中 |
-  | **~2026-07** | FSD v15 重写推送（Robotaxi 放量前提） | 中 |
-  | **~2026-07-22/29** | Q2 2026 财报（日期待核实） | 强 |
-  | **2026-07-28/29** | [FOMC 议息](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm) | 强 |
-  | **2026 7 月底/8 月** | [Optimus V3 发布/产线启动](https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/) | 中 |
-  | **~2026 年中后** | Robotaxi 扩城（Phoenix/Miami/Vegas 等，可能滑期） | 中/弱 |
-  | 2026 H2 | 年度股东大会（日期 TBD）；NHTSA 工程分析结论 | 中 |
-  | ~2028 / ~2033 | 2018 薪酬期权可行权 / 股份可卖出 | 弱 |
+
+### 结论复述
+中等的生意（质量 54）+ 几乎完美的定价（买点 20）+ 治理/监管/竞争/品牌四重风险（惩罚 −42）＝ **现价回避**。等估值大幅回落、或 Robotaxi 真正放量验证单位经济，再重新评估——现在这个价＋这些风险不值得追。
+
+### 下一步要核实
+| # | 待核实项 | 为什么没查到 | 查证路径 |
+|---|---|---|---|
+| 1 | 期权 skew / 25-delta 风险反转、财报隐含跳空 | 需实时期权终端，公开页未稳定 | optioncharts.io/options/TSLA/volatility-skew；Market Chameleon TSLA 财报页 |
+| 2 | Q2 2026 财报确切日期 | 两源冲突（7/22 vs 7/29） | ir.tesla.com 财报日历 |
+| 3 | NHTSA 320 万辆 FSD 工程分析结论 | 调查进行中，尚无结果 | nhtsa.gov 调查页 + Tesla 8-K |
+| 4 | Robotaxi 扩城实际进度与车队规模 | 公司仅给目标城市、无确认日期 | Tesla IR / 各州监管批文 |
+| 5 | 净化一次性项后的真实汽车毛利 | Q1 含未拆分的保修/关税一次性项 | 待 Q2 财报（~7 月）干净季度 |
+
+### 催化 / 日历
+| 日期 / 窗口 | 事件 | 类型 | 强度 |
+|---|---|---|:--:|
+| **2026-06-16/17** | [FOMC 议息](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm)（高估值成长股对利率敏感） | 宏观 | 强 |
+| **~2026-07-02** | Q2 交付与产量报告（库存悬念验证点） | 业绩节奏 | 中 |
+| **~2026-07** | FSD v15 重写推送（Robotaxi 放量前提） | 产品/技术 | 中 |
+| **~2026-07-22/29** | Q2 2026 财报（日期待核实） | 业绩节奏 | 强 |
+| **2026-07-28/29** | [FOMC 议息](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm) | 宏观 | 强 |
+| **2026 7 月底/8 月** | [Optimus V3 发布/产线启动](https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/) | 产品/技术 | 中 |
+| **~2026 年中后** | Robotaxi 扩城（Phoenix/Miami/Vegas 等，可能滑期） | 产品/监管 | 中/弱 |
+| **2026 H2** | 年度股东大会（日期 TBD）；NHTSA 工程分析结论 | 治理/监管 | 中 |
+| **~2028 / ~2033** | 2018 薪酬期权可行权 / 股份可卖出 | 筹码面 | 弱 |
 
 ## 证据与来源（强/中/弱）
 - Q1 2026 业绩（$22.39B、EPS $0.41、GM 21.1%）— [Electrek](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-financial-results/) / [TIKR](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative) — **强**
