@@ -49,7 +49,7 @@
 
 - **Mission**：判断现价贵不贵、市场已 price-in 了多少（见 `references/valuation-and-entry.md`）。
 - **拥有的模块 / 流程步骤**：估值与买点（流程 7）。
-- **取证重点**：P/S vs 增速、PEG 类、EV/Sales、Rule-of-40、对比历史/同业、隐含预期/反向 DCF 直觉、距一致预期的位置、预期门槛。
+- **取证重点**：P/S vs 增速、PEG 类、EV/Sales、Rule-of-40、对比历史/同业、隐含预期/反向 DCF 直觉、距一致预期的位置、预期门槛；**基本面 vs 股价背离 / 市场在边际上重估什么**——若基本面亮眼但股价滞涨/回调（距高点回撤震荡），反推远期一致预期/隐含假设被如何下修，市场在重估的是增长持续性、利润率可防御性、需求天花板还是大客户议价权（见 `references/valuation-and-entry.md`「股价行为 vs 基本面」节）。
 - **回传字段**：
   - 因子键：`valuation_growth_match`、`entry_expectations`（与 `positioning-options-analyst` 重叠，由综合代理调和）。
   - 惩罚键：`liquidity_bubble`。
@@ -71,7 +71,7 @@
 
 - **Mission**：读资金面/筹码面与期权市场，辅助买点与风险（见 `references/positioning-and-options.md`）。
 - **拥有的模块 / 流程步骤**：资金面 + 期权（流程 8，第 7 节）。
-- **取证重点**：解禁日（日期/规模/谁）、增发/ATM/S-3、内部人卖出（Form 4、10b5-1、集体减持）、机构降评级/13F 减持、回购 vs 稀释净额；IV/IV 百分位、财报隐含波动、put/call、skew、OI/max pain、异常活动、期限结构。
+- **取证重点**：解禁日（日期/规模/谁）、增发/ATM/S-3、内部人卖出（Form 4、10b5-1、集体减持）、机构降评级/13F 减持、回购 vs 稀释净额；IV/IV 百分位、财报隐含波动、put/call、skew、OI/max pain、异常活动、期限结构；**把价格行为（距 52 周高的回撤、震荡、动量、财报后涨跌与 beat/miss 是否匹配）读作远期预期的信号**——不止情绪，而是"市场是否在重估远期假设"的线索，供 `entry_expectations` 背离读数（仍属中/弱证据，不作核心驱动，不机械按涨跌打分）。
 - **回传字段**：
   - 因子键：`entry_expectations`（价格/预期面上下文，与 `valuation-analyst` 重叠，由综合代理调和）。
   - 惩罚键：`dilution_financing`、`lockup_insider_supply`。
@@ -84,5 +84,6 @@
 - **拥有的模块 / 流程步骤**：综合（synthesis lane，barrier 之后）。
 - **取证重点**：调和重叠的 `suggested_factor_scores`（取证据更强的一方）；合并 `flags[]`、`needs_checking[]`；按 `assets/agent-findings-schema.json` 读取，组装评分卡输入。
 - **闭环核实（出报告前必做）**：汇总所有 `needs_checking[]` 与取证失败项，按 SKILL.md「🔁 闭环核实协议」分流并**再发一轮定向核实子代理**补齐——(A) 有源路径的去查、(B) fetch 失败的换路再取、(C) 真正不可得的才保留。能查到的写进正文，不甩给用户；这步在打分/写报告之前完成。
+- **预期再定价合成（出报告前必做）**：把 earnings-analyst 的「财报后反应 + 远期一致预期修正方向」、valuation-analyst 的「隐含预期 / 背离」、positioning-options-analyst 的「价格行为」**合成为一个**「市场在边际上重估什么 / 基本面 vs 股价背离是否合理」读数，**强制写进报告第 8 节的「市场在重估什么 / 基本面 vs 股价背离」子块**，并据此校准（连同解释）`entry_expectations`。护栏：价格属中/弱证据，解释背离、不按涨跌机械打分；存在背离时第 1 节 one-liner 须点名。
 - **回传字段**：不新拥有键——**调和全部因子/惩罚/红线键**，以 `assets/scorecard-input.json` 为模板复制临时文件填分（勿覆盖模板）后运行 `scripts/growth_scorecard.py`（含双轴、惩罚、红线封顶），按 `assets/stock-verdict-template.md` 写"结论先行"的 11 节报告。
 - **证据要求**：每条结论标 强/中/弱/待核实；红线命中则封顶，不让高分掩盖致命问题。
