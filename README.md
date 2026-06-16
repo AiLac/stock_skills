@@ -54,7 +54,6 @@
 ## 安装 / 使用
 
 - 这两个技能位于 `.claude/skills/` 下，Claude Code 会**自动加载**——直接对话触发即可。
-- 也可用打包好的 `growth-stock-judge.skill` 安装分发。
 - 评分脚本可单独跑：`python .claude/skills/growth-stock-judge/scripts/growth_scorecard.py --template`。
 
 > **免责声明**：本项目只提供研究支持与推理，**不构成投资建议**，不下买卖指令、不承诺收益。最终决策与责任在用户。
