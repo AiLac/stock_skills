@@ -13,12 +13,13 @@
 - **有 `Workflow` / 编排工具时（更稳）**：用 `parallel([...7 个 thunk...])` 或 `pipeline()` 一次拉起 7 个研究代理，由综合阶段做 barrier；deterministic，不依赖模型"记得"把调用并到一条消息里。
 - **其它宿主**：任何"同时分派多个独立子代理"的能力都可（superpowers 的 `dispatching-parallel-agents`、OMC 的 Team/`oh-my-claudecode:explore` 等）。机制不限，**硬要求只有一条：7 个研究子代理在同一回合一次性并行发出，不串行、不分批**。
 3. **统一回传结构**：每个子代理回传 `assets/agent-findings-schema.json` 定义的结构——`module`、`summary`、`findings[]`（含 `claim/value/source/strength`）、`flags[]`（红旗/利空）、`needs_checking[]`、`suggested_factor_scores`、`suggested_penalties`、`suggested_red_lines`。子代理只填自己负责的键，其余留 `null`/`false`。
-4. **屏障等待（barrier）**：等**全部** 7 个研究子代理返回后，才进入综合阶段。任一代理未返回，按"子代理失败处理"标注，不无限等待。
-5. **综合出结论（synthesize）**：`judge-synthesizer` 合并所有回传，按"I/O 契约"对冲突字段择优，以 `assets/scorecard-input.json` 为模板**复制出一份临时文件**（如 `/tmp/<ticker>-scorecard.json`，**不要覆盖这个空白模板**）填好分数，对该临时文件运行 `scripts/growth_scorecard.py` 出分与结论，再按 `assets/stock-verdict-template.md` 写 11 节报告。
+4. **屏障等待（barrier）**：等**全部** 7 个研究子代理返回后，才进入下一步。任一代理未返回，按"子代理失败处理"标注，不无限等待。
+5. **闭环核实（verify-before-output，出报告前必做）**：`judge-synthesizer` 汇总所有回传里的 `needs_checking[]` 与取证失败项，分三类——(A) 有源路径只是没查 / (B) fetch 失败(403/超时/被挡) / (C) 真正不可得——对 (A)(B) **再发一轮定向核实子代理**（同一条消息并行发、有界一轮）补齐；(B) 必须**换路再取**（EDGAR 主文档 → 全文检索 efts → 镜像 bamsec/last10k/stocktitan → data.sec.gov API → exhibits → 公司 IR），换遍仍拿不到才保留。**能查到的补进正文，不甩给用户**；只有 (C) 进报告第 10 节并注明试过哪些路。细则见 SKILL.md「🔁 闭环核实协议」。
+6. **综合出结论（synthesize）**：`judge-synthesizer` 合并所有回传（含闭环核实补回的数据），按"I/O 契约"对冲突字段择优，以 `assets/scorecard-input.json` 为模板**复制出一份临时文件**（如 `/tmp/<ticker>-scorecard.json`，**不要覆盖这个空白模板**）填好分数，对该临时文件运行 `scripts/growth_scorecard.py` 出分与结论，再按 `assets/stock-verdict-template.md` 写 11 节报告。
 
 ## 子代理失败处理
 
-- 某个子代理失败、超时，或拿到的数据太薄：在报告里把**该模块标"待核实"**，写明缺什么、怎么查（给查证路径），**不阻塞出结论**——其余模块照常打分，缺失模块的因子按保守/中性处理并标注。
+- 某个子代理失败、超时，或拿到的数据太薄：**先在第 5 步「闭环核实」里重发一个定向子代理抢救该模块**（换路取证），补齐就正常打分、写进正文。确实抢救不回来，才把该模块标"待核实"、写明缺什么和查证路径，按保守/中性处理、**不阻塞出结论**。注意：fetch 403/超时**不算**"数据太薄"，那是要换路重取的取证失败，不能直接判缺失。
 - 但凡有子代理回传 `suggested_red_lines` 命中红线（`accounting_fraud_suspicion` / `core_customer_loss` / `growth_engine_broken`），即使其他模块缺失，也按评分卡**红线封顶**结论为"回避 / 观望"，红线优先于数据完整性。
 
 ## 可移植性与兜底
