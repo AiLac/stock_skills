@@ -82,6 +82,7 @@
 
 - **Mission**：综合所有研究代理产出，出分与结论，写报告。
 - **拥有的模块 / 流程步骤**：综合（synthesis lane，barrier 之后）。
-- **取证重点**：调和重叠的 `suggested_factor_scores`（取证据更强的一方）；合并 `flags[]`、`needs_checking[]`；按 `assets/agent-findings-schema.json` 读取，组装 `assets/scorecard-input.json`。
-- **回传字段**：不新拥有键——**调和全部因子/惩罚/红线键**，运行 `scripts/growth_scorecard.py`（含双轴、惩罚、红线封顶），按 `assets/stock-verdict-template.md` 写"结论先行"的 11 节报告。
+- **取证重点**：调和重叠的 `suggested_factor_scores`（取证据更强的一方）；合并 `flags[]`、`needs_checking[]`；按 `assets/agent-findings-schema.json` 读取，组装评分卡输入。
+- **闭环核实（出报告前必做）**：汇总所有 `needs_checking[]` 与取证失败项，按 SKILL.md「🔁 闭环核实协议」分流并**再发一轮定向核实子代理**补齐——(A) 有源路径的去查、(B) fetch 失败的换路再取、(C) 真正不可得的才保留。能查到的写进正文，不甩给用户；这步在打分/写报告之前完成。
+- **回传字段**：不新拥有键——**调和全部因子/惩罚/红线键**，以 `assets/scorecard-input.json` 为模板复制临时文件填分（勿覆盖模板）后运行 `scripts/growth_scorecard.py`（含双轴、惩罚、红线封顶），按 `assets/stock-verdict-template.md` 写"结论先行"的 11 节报告。
 - **证据要求**：每条结论标 强/中/弱/待核实；红线命中则封顶，不让高分掩盖致命问题。
