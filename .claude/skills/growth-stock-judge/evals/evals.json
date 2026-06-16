@@ -1,0 +1,39 @@
+{
+  "skill_name": "growth-stock-judge",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "NVDA 现在还值得投资吗？帮我判断一下",
+      "expected_output": "Verdict-first growth judgment for NVDA: a clear 值得投资/观望/回避 line, dual-axis quality/entry scores, a scorecard, a latest-earnings read, and a 风险与利空 section (incl. 资金面 + 期权). Claims labeled 强/中/弱/待核实.",
+      "files": [],
+      "assertions": [
+        "Output leads with an explicit verdict (值得投资 / 观望 / 回避 or 强信心值得投资).",
+        "Includes a scorecard with the 8 factors and a dual-axis (质量分 + 买点分).",
+        "Has a 最近财报 section covering growth + guidance.",
+        "Has a 风险与利空 section that includes 资金面 (解禁/增发/内部人卖出/降评级) and an 期权市场 read.",
+        "Claims carry evidence labels (强/中/弱/待核实); no invented exact figures presented as fact."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm thinking about buying Tesla. Is TSLA worth investing in right now?",
+      "expected_output": "Same verdict-first growth report for TSLA, responding in the user's language (English here), with valuation/entry factored into the verdict.",
+      "files": [],
+      "assertions": [
+        "Responds in English (matches user's language).",
+        "Verdict reflects BOTH business quality AND current valuation/entry (dual-axis).",
+        "Includes risk/利空 section and a kill-switch / what-would-change-my-mind list."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "美股 AI 半导体这个赛道，哪几家最值得研究？",
+      "expected_output": "This is a multi-stock theme scan, NOT single-stock judgment — growth-stock-judge should defer to serenity-skill rather than produce a single-name verdict.",
+      "files": [],
+      "assertions": [
+        "Does NOT force a single-stock scorecard verdict on a whole sector.",
+        "Defers to / hands off to serenity-skill for theme screening, or asks which specific ticker to judge."
+      ]
+    }
+  ]
+}

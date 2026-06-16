@@ -1,0 +1,37 @@
+{
+  "module": "company_profile | earnings | growth | moat_economics | valuation | risk | positioning_options",
+  "ticker": "",
+  "summary": "one-line plain-language takeaway for this module",
+  "findings": [
+    {"claim": "", "value": "", "source": "", "strength": "strong | medium | weak | needs_checking"}
+  ],
+  "flags": [
+    {"type": "red_flag | 利空", "detail": "", "severity": "low | medium | high | red_line", "date_window": ""}
+  ],
+  "needs_checking": [""],
+  "suggested_factor_scores": {
+    "revenue_growth_durability": null,
+    "tam_penetration": null,
+    "moat_chain_position": null,
+    "unit_economics_profit_path": null,
+    "product_customer_momentum": null,
+    "management_capital_allocation": null,
+    "valuation_growth_match": null,
+    "entry_expectations": null
+  },
+  "suggested_penalties": {
+    "dilution_financing": null,
+    "customer_concentration": null,
+    "accounting_quality": null,
+    "governance": null,
+    "competition_disruption": null,
+    "regulation_geopolitics": null,
+    "liquidity_bubble": null,
+    "lockup_insider_supply": null
+  },
+  "suggested_red_lines": {
+    "accounting_fraud_suspicion": false,
+    "core_customer_loss": false,
+    "growth_engine_broken": false
+  }
+}

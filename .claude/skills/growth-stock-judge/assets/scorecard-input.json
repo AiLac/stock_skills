@@ -1,0 +1,33 @@
+{
+  "ticker": "EXAMPLE",
+  "company": "Example Co",
+  "factors": {
+    "revenue_growth_durability": 0,
+    "tam_penetration": 0,
+    "moat_chain_position": 0,
+    "unit_economics_profit_path": 0,
+    "product_customer_momentum": 0,
+    "management_capital_allocation": 0,
+    "valuation_growth_match": 0,
+    "entry_expectations": 0
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "customer_concentration": 0,
+    "accounting_quality": 0,
+    "governance": 0,
+    "competition_disruption": 0,
+    "regulation_geopolitics": 0,
+    "liquidity_bubble": 0,
+    "lockup_insider_supply": 0
+  },
+  "red_lines": {
+    "accounting_fraud_suspicion": false,
+    "core_customer_loss": false,
+    "growth_engine_broken": false
+  },
+  "evidence": [
+    {"claim": "", "value": "", "source": "", "strength": "strong/medium/weak/needs_checking"}
+  ],
+  "what_could_weaken_view": ["", "", ""]
+}
