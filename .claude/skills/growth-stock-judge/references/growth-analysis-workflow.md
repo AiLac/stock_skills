@@ -106,8 +106,8 @@
 
 用评分卡把上面的研究压成一个可复核的结论。机制见 `references/growth-scoring-rubric.md`，代码见 `scripts/growth_scorecard.py`。
 
-- 按 `assets/scorecard-input.json` 模板填 8 个因子（0-5）、8 个惩罚项（0-5）、3 个红线（true/false）。
-- 运行 `python scripts/growth_scorecard.py assets/scorecard-input.json --format both`，得到**总分**、**质量分**、**买点分**、**结论分档**与**红线封顶状态**。
+- 以 `assets/scorecard-input.json` 为**模板复制一份临时文件**（如 `/tmp/<ticker>-scorecard.json`，**别改动模板本身**），在临时文件里填 8 个因子（0-5）、8 个惩罚项（0-5）、3 个红线（true/false）。
+- 运行 `python scripts/growth_scorecard.py /tmp/<ticker>-scorecard.json --format both`，得到**总分**、**质量分**、**买点分**、**结论分档**与**红线封顶状态**。
 - 结论分档：≥85 强信心值得投资；70-84 值得投资；55-69 观望 / 建仓试探；<55 暂不值得 / 回避；**命中红线封顶为"回避 / 观望"**（无论原始分多高）。
 - 按 `assets/stock-verdict-template.md` 写"结论先行"的 11 节报告，结论同时给出**双轴**（好公司但偏贵 → 观望/分批 这类细腻判断）。
 - 报告第 10 节的**催化 / 日历**要排密、别只写"下次财报"：按时间列出所有适用的事件类型，每条标日期或"待核实"。完整事件类型清单见 `references/earnings-readthrough.md` 末尾「催化 / 日历事件类型」。
