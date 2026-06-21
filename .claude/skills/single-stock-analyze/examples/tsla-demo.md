@@ -1,6 +1,6 @@
 # 示例：TSLA（Tesla）成长股投资判断（worked example）
 
-> **真实走查示例**，由 growth-stock-judge 的 **8-agent 完整 fan-out**（含新增的 management-analyst）联网生成，数据截至 **2026-06-16**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 12 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
+> **真实走查示例**，由 single-stock-analyze 的 **8-agent 完整 fan-out**（含新增的 management-analyst）联网生成，数据截至 **2026-06-16**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 12 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
 
 本文件从 `assets/stock-verdict-template.md` 端到端填出，内部一致：下方评分卡 JSON 经 `scripts/growth_scorecard.py` 算出的 verdict 与报告"结论"一致。
 

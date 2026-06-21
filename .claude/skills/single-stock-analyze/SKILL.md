@@ -1,5 +1,5 @@
 ---
-name: growth-stock-judge
+name: single-stock-analyze
 description: Judge whether one specific US stock is worth investing in right now, through a growth-investing lens, returning a verdict-first report (值得投资 / 观望 / 回避 — worth / watch / avoid) backed by a multi-agent research workflow, a quantitative scorecard, a latest-earnings deep-read, and a risk/利空 module (lockups, offerings, insider selling, analyst downgrades, options-market read). Use it whenever the user names a US ticker or company and asks — in any phrasing — whether to buy, add, hold, or how to judge the 买点/entry — e.g. "NVDA 现在还值得买吗", "判断下 RKLB 能不能投/该不该建仓", "加仓 AMD 值不值得", "should I buy PLTR now or wait", "is TSLA worth owning", "start a position in SHOP?", "analyze this US stock" — even if they don't say "analyze" or "invest". NOT for multi-stock theme/sector or supply-chain screening (那是 serenity-skill), nor portfolio/ETF allocation, market/macro news, or translation/coding tasks that merely mention a ticker.
 license: MIT
 compatibility: Best with web/search tools for live filings, transcripts, prices, and estimates. Multi-agent dispatch is an accelerator; single-agent sequential execution is a supported fallback. Bundled script is local-only Python 3 (stdlib).
@@ -8,7 +8,7 @@ metadata:
   short-description: US growth-stock single-name investment judgment
 ---
 
-# growth-stock-judge
+# single-stock-analyze
 
 Give one US ticker, get one verdict. This skill takes a single US stock and returns a **verdict-first growth-investing judgment** — 值得投资 / 观望 / 回避 — for *this name, at this price, right now*. The verdict carries two axes at once: how good the business is (质量) and whether the current entry is cheap or expensive (买点). Behind the verdict sit a multi-agent research workflow, a quantitative scorecard with a red-line kill-switch, a deep read of the latest earnings, and a risk/利空 module that covers lockups, offerings, insider selling, downgrades, and an options-market read. Lead with the call; back every claim with sourced evidence; say plainly which facts still need checking.
 

@@ -1,4 +1,4 @@
-# 测试用例（growth-stock-judge）
+# 测试用例（single-stock-analyze）
 
 人读的触发 / 行为 / 编排测试清单。可运行版本见 `evals/evals.json`。
 逐条核对：给一个美股代码后，skill 应给出「结论先行」的成长股投资判断；纯赛道扫描应让位给 `serenity-skill`。
