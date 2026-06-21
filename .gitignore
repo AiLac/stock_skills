@@ -3,3 +3,5 @@
 # Local working docs and skill-eval scratch — keep out of git
 /docs/
 /single-stock-analyze-workspace/
+
+/claude.md
