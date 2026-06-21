@@ -1,12 +1,12 @@
 # 示例：TSLA（Tesla）成长股投资判断（worked example）
 
-> **真实走查示例**，由 single-stock-analyze 的 **8-agent 完整 fan-out**（含新增的 management-analyst）联网生成，数据截至 **2026-06-16**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 12 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
+> **真实走查示例**，由 single-stock-analyze 的 **8-agent 完整 fan-out**（含新增的 management-analyst 与 company-profiler 深化）联网生成，数据截至 **2026-06-21**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 13 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
 
 本文件从 `assets/stock-verdict-template.md` 端到端填出，内部一致：下方评分卡 JSON 经 `scripts/growth_scorecard.py` 算出的 verdict 与报告"结论"一致。
 
 ---
 
-## 评分卡输入 JSON（喂给 `growth_scorecard.py`）
+### 评分卡输入 JSON（喂给 `growth_scorecard.py`）
 
 ```json
 {
@@ -67,6 +67,75 @@
 | accounting_fraud_suspicion | 未触发 | 一次性项与监管积分是披露质量问题、非造假；无 SEC 立案，报表 GAAP 合规 |
 | core_customer_loss | 未触发（接近） | 风险代理标 TRUE（[欧洲 -44%](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-decline/)、美国 8 年低份额、创始客群流失）；综合代理判为**严重惩罚级**而非硬红线——Tesla 仍售约 1.6M 辆 + 有 AI 期权（非单一大客户骤失）。**但本轮重跑证据更强**：2025 已被 [BYD 反超为全球电动车第一](https://techcrunch.com/2026/01/02/tesla-annual-sales-decline-9-as-its-overtaken-by-byd-as-global-ev-leader/)（2.26M vs 1.64M、连续第二年下滑），创始客群结构性流失；**若美/欧份额继续下滑即升级为红线封顶** |
 | growth_engine_broken | 未触发 | 营收重新加速 +16%、毛利从低谷回升；但"下一代引擎"(Robotaxi/Optimus) 商业化≈0，二元性极大 |
+
+## 🏢 公司介绍 / 核心产品
+> **结构化优先** — 能用表格就用表格、要点先行；每条标证据级（强/中/弱/待核实）+ 来源链接。方法见 `references/company-profile.md`。本节为**描述性事实**；竞争壁垒能否持续的判断在第 7 节「护城河 / 产业链位置」。
+
+### 一句话画像 + 商业模式
+Tesla, Inc. 是一家美国**电动汽车 + 清洁能源**公司，同时从事自动驾驶技术研发与人形机器人；主要收入来自整车销售（一次性）、能源产品销售（一次性+订阅）与 FSD/服务订阅（经常性比例持续提升）。[Tesla 10-K 2024](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)（强）
+
+### 业务分部与收入拆分
+| 分部 | 收入（Q1 2026） | 占比% | YoY | 毛利特征 |
+|---|---:|---:|---:|---|
+| 汽车（整车+积分+FSD） | ~$17.2B | ~77% | +13% | GM ~19.2%（净化一次性项后~17-18%，受降价/竞争压制） |
+| 能源与储能（Megapack/Powerwall） | ~$2.7B | ~12% | +67% | GM ~25-30%（高 margin 引擎，2026 指引压缩） |
+| 服务与其他（超充/维修/保险） | ~$2.5B | ~11% | +42% | GM 较低但快速上升 |
+| **合计** | **$22.39B** | **100%** | **+15.8%** | GAAP GM 21.1% |
+
+来源：[Electrek Q1 2026 结果](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-financial-results/)（强）、[TIKR](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative)（强）
+
+### 核心产品 / 服务
+| 产品/服务 | 是什么 | 卖给谁 | 变现/定价 | 收入占比 | 生命周期阶段 |
+|---|---|---|---|---:|---|
+| Model Y / Model 3 | 中型 SUV / 轿车电动车 | 消费者 | 一次性整车售价（$35K-$60K） | ~65% | 成熟（主力走量） |
+| Cybertruck | 电动皮卡 | 美国消费者/商用 | 一次性（$80K+） | ~3-5% | 导入（良品率提升中） |
+| FSD（Full Self-Driving） | 监督级自动驾驶软件 | 车主 | 订阅 $99/月 or 一次性 $8K | ~5%（快速增长） | 导入（1.28M 订阅）|
+| Megapack | 大型电网储能系统 | 公用事业/企业 | 项目合同（$/kWh） | ~8% | 放量 |
+| Powerwall | 家用电池储能 | 消费者 | 一次性 + 安装服务 | ~3% | 放量 |
+| 超充网络 / NACS | 充电服务（含第三方品牌） | 车主（含非 Tesla） | 按度计费 | ~2% | 放量 |
+| Optimus（人形机器人） | 工厂/物流机器人（V3 开发中） | 企业（初期内部） | 尚无商业定价 | <1%（预研） | 导入前期 |
+
+来源：[Tesla 10-K 2024](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)（强）、[NotaTeslaApp Q1 2026](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap)（中）
+
+### 客户
+主要客户为**消费者（C 端）**，无单一大客户，但高度集中于美国与中国两大市场（合计约占总交付 80%+）。能源/Megapack 以公用事业/企业（B 端）为主。
+> 主要客户 / 集中度；客户集中度的**扣分**见第 11 节「⚠️ 风险与利空」，此处只描述。
+
+### 竞品分析
+| 对手 | 产品/定位 | 相对规模/市占 | 与本公司正面交锋点 |
+|---|---|---|---|
+| [BYD](https://www.byd.com) | 全系纯电/插混；汉、宋、海豹等 | 2025 全球 EV 第一（2.26M vs Tesla 1.64M）；中国 EV 市占 ~35% | 中国市场直接碾压，插混布局更广；汉 DM-i 价格低于 Model 3 |
+| [Waymo](https://waymo.com) | 全无人 Robotaxi（L4） | Austin 已部署 ~577 辆；Google 母公司背书 | 自动驾驶现实运营领先 Tesla ~20 倍（辆数） |
+| 华为 ADS（智界/问界） | 汽车智驾系统+品牌 | 中国智驾高端市占快速提升 | 中国市场品牌+技术双重挤压，问界 M9 等抢高端 |
+| 传统 OEM（GM Cruise/Ford BlueCruise/Stellantis） | 混合+电动 + ADAS | 美国各有 10-20% 市场份额 | 混合路线吸引部分观望客，ADAS 追赶 FSD 功能 |
+| 宁德时代（CATL） | 动力电池供应商 | Tesla 部分车型电池供应商 | 若 Tesla 电池自研缓慢，宁德时代议价权强 |
+
+来源：[TechCrunch BYD 超越 Tesla](https://techcrunch.com/2026/01/02/tesla-annual-sales-decline-9-as-its-overtaken-by-byd-as-global-ev-leader/)（强）、[TechTimes Waymo vs Tesla](https://www.techtimes.com/articles/318160/20260610/tesla-robotaxi-trails-waymo-42-577-texasaustin-map-masks-20-car-fleet-until-fsd-v15-rewrite.htm)（中）
+
+### 竞争力分析
+**强项（事实层）**：
+- **Supercharger/NACS 网络**：美国 52%+ 快充口、几乎全行业标准化（强证据，[EVCS](https://usevchargingstations.info/guides/nacs-transition/)）；非 Tesla 车接入后网络效应反增。
+- **FSD 真实里程数据规模**：[累计 10B+ 英里、29M/天](https://electrek.co/2026/05/03/tesla-fsd-10-billion-miles-no-magical-milestone-autonomy/)，训练数据规模领先主流 OEM（中证据；与 Waymo 比较有争议）。
+- **垂直整合**：自研芯片（Dojo/HW4）、电池研发、超充、整车设计一体；降本能力强（中证据）。
+- **品牌 & 直销**：免经销商、直营模式保护 NPS/利润率（中证据，但 2024-2026 品牌有流失）。
+
+**弱项（事实层）**：
+- **产品线老化**：Model S/X 已 10 年、Model 3/Y 5-7 年、Cybertruck 良品率问题；刷新周期慢（中证据）。
+- **中国市场份额持续萎缩**：[4 月跌出前十（-53% MoM）](https://cnevpost.com/2026/05/13/automakers-share-china-nev-market-apr-2026/)，华为/BYD 双重夹击（强证据）。
+- **欧洲品牌流失**：[注册 -44% YoY](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-defeat/)，政治因素加速（中证据）。
+- **Robotaxi 现实部署落后 Waymo**：仅约 42 辆 vs Waymo 577 辆（中证据）。
+
+> 壁垒能否持续见第 7 节「护城河 / 产业链位置」。
+
+### 产业链位置
+Tesla 处于 EV **整车品牌商 + 自动驾驶平台**位置（中游偏下游），上游依赖电池（宁德时代/松下）、半导体（台积电/三星代工 Dojo 芯片）、锂矿（全球供应商）；下游直销给消费者+企业。超充网络赋予其部分基础设施话语权（上游化趋势）。能源/Megapack 业务将其延伸至电网侧（中游偏上）。与第 7 节「护城河 / 产业链位置」呼应（此处描述位置，那里判断壁垒能否持续）。（中证据，[Tesla 10-K 2024 供应链描述](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)）
+
+### 公司沿革与规模
+- **成立**：2003 年由 Martin Eberhard & Marc Tarpenning 创立；Elon Musk 2004 年加入并成为最大投资人，后出任 CEO。
+- **上市**：2010 年 6 月 NASDAQ IPO（TSLA），发行价 $17/股。
+- **关键转型**：2012 Model S 量产（高端电动车）→ 2017 Model 3 发布（平民化）→ 2020 FSD 订阅上线 → 2022 Megapack 放量 → 2023 NACS 成行业标准 → 2025 Robotaxi 试运营（Austin）。
+- **重大并购**：SolarCity（2016，$2.6B，整合光伏+储能）；无其他重大并购，主以有机成长为主。
+- **规模**：员工约 [12 万人（2024 年末裁员后）](https://electrek.co/2024/04/15/tesla-laid-off-more-than-10-of-its-global-workforce/)；全球工厂 5 座（Fremont/Gigafactory Nevada/TX/Berlin/上海）；FY2025 全球交付 1.636M 辆；FY2025 营收约 $97B（强证据，[Tesla IR](https://ir.tesla.com)）。
 
 ## 投资逻辑
 多头逻辑几乎全押在"自动驾驶 + 人形机器人"两个期权：可复用的 FSD 数据飞轮（[10B+ 累计英里、29M/天](https://electrek.co/2026/05/03/tesla-fsd-10-billion-miles-no-magical-milestone-autonomy/)）、Supercharger/NACS 充电标准、储能（Megapack）高增长。问题是：**今天的生意支撑不了今天的估值**——汽车在利润低谷、品牌在核心市场流失，而 Robotaxi/Optimus 的商业化要到 2027+ 才有意义。$1.53T 市值里约 $300+/股是纯期权溢价，安全边际几乎为零。
