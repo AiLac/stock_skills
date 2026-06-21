@@ -2,7 +2,7 @@
 
 8 个并行研究子代理 + 1 个综合代理。每个研究子代理只负责一个模块、独立联网取证、按 `assets/agent-findings-schema.json` 回传，并只填**自己拥有的因子/惩罚/红线键**（其余留 `null`/`false`）。证据分级沿用 serenity 的 `references/evidence-ladder.md`；不在场时用 SKILL.md 内精简分级表兜底。各键定义以 `scripts/growth_scorecard.py` 为准。
 
-> **重叠键说明**：少数键由多个代理共同关注——`product_customer_momentum`（`earnings-analyst` 与 `growth-analyst` 都给）、`entry_expectations`（`valuation-analyst` 与 `positioning-options-analyst` 都给）。这些重叠键不在子代理层裁决，由 `judge-synthesizer` 用**证据更强**的一方调和（见 `references/orchestration.md` 的 I/O 契约）。
+> **重叠键说明**：少数键由多个代理共同关注——`product_customer_momentum`（`earnings-analyst` 与 `growth-analyst` 都给）、`entry_expectations`（`valuation-analyst` 与 `positioning-options-analyst` 都给）、`management_capital_allocation`（`earnings-analyst` 与 `management-analyst` 都给）。这些重叠键不在子代理层裁决，由 `judge-synthesizer` 用**证据更强**的一方调和（见 `references/orchestration.md` 的 I/O 契约）。
 
 ## company-profiler
 
@@ -78,7 +78,7 @@
   - 红线键：—。
 - **证据要求**：期权/筹码面属**中/弱证据**（情绪/持仓面），不作核心结论主驱动；EDGAR Form 4/S-3 为强证据，期权数据拿不到标"待核实"并给数据源。
 
-## `management-analyst`（研究 lane）
+## management-analyst
 
 - **Mission**：从"人"的维度判断公司发展潜力，独立联网取证，回传**定性**结论（不打分）。详见 `references/management-analysis.md`。
 - **负责模块 / 流程步骤**：管理层 / 领导力（研究工作流"护城河"之后那一步）。
