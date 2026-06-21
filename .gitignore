@@ -2,4 +2,6 @@
 
 # Local working docs and skill-eval scratch — keep out of git
 /docs/
-/growth-stock-judge-workspace/
+/single-stock-analyze-workspace/
+
+/claude.md

@@ -4,14 +4,14 @@
 
 | 技能 | 干什么 | 回答的问题 |
 |---|---|---|
-| **`growth-stock-judge`** | 单股深度判断（成长投资视角） | *这只美股，现在该不该投？* |
+| **`single-stock-analyze`** | 单股深度判断（成长投资视角） | *这只美股，现在该不该投？* |
 | **`serenity-skill`** | 供应链卡点猎手 / 赛道筛选 | *赛道里哪几层稀缺、谁离卡点最近？* |
 
 两者是搭档：问"NVDA 现在值得买吗"用前者；问"AI 半导体哪几家最值得研究"用后者。
 
 ---
 
-## growth-stock-judge：判断一只美股现在值不值得投
+## single-stock-analyze：判断一只美股现在值不值得投
 
 ### 怎么用
 直接给一个美股代码并问要不要投即可触发，措辞随意：
@@ -28,14 +28,14 @@
 
 1. **结论框** — 一句话结论（值得投资 / 观望 / 回避）+ 信心 + **双轴分**（质量 / 买点）+ 总分
 2. **评分卡** — 8 个因子 0–5 打分、惩罚项、红线状态
-3. 投资逻辑 · 增长引擎+市场空间 · **📊 最近财报深读** · 护城河/产业链位置 · 单位经济性 · 估值与买点
+3. 投资逻辑 · 增长引擎+市场空间 · **📊 最近财报深读** · 护城河/产业链位置 · **👤 管理层/领导力** · 单位经济性 · 估值与买点
 4. **⚠️ 风险与利空** — 结构性风险 → 资金面（解禁/增发/内部人卖出/降评级）→ 期权市场解读 → 下行情景 → kill-switch 清单
 5. 催化/日历（带日期）+ **可点击的来源链接**
 
-样例见 [`.claude/skills/growth-stock-judge/examples/tsla-demo.md`](.claude/skills/growth-stock-judge/examples/tsla-demo.md)（TSLA 真实走查）。
+样例见 [`.claude/skills/single-stock-analyze/examples/tsla-demo.md`](.claude/skills/single-stock-analyze/examples/tsla-demo.md)（TSLA 真实走查）。
 
 ### 工作原理
-**fan-out → synthesize**：并行分派 7 个研究子代理（公司画像 / 财报 / 增长 / 护城河+单位经济 / 估值 / 风险 / 筹码面+期权），各自联网取证，再由综合代理跑评分卡、写结论。无多 agent 能力时自动单 agent 顺序兜底。评分卡是个独立可复现的 Python 脚本（`scripts/growth_scorecard.py`）。
+**fan-out → synthesize**：并行分派 8 个研究子代理（公司画像 / 财报 / 增长 / 护城河+单位经济 / 估值 / 风险 / 筹码面+期权 / 管理层），各自联网取证，再由综合代理跑评分卡、写结论。无多 agent 能力时自动单 agent 顺序兜底。评分卡是个独立可复现的 Python 脚本（`scripts/growth_scorecard.py`）。
 
 ---
 
@@ -54,6 +54,6 @@
 ## 安装 / 使用
 
 - 这两个技能位于 `.claude/skills/` 下，Claude Code 会**自动加载**——直接对话触发即可。
-- 评分脚本可单独跑：`python .claude/skills/growth-stock-judge/scripts/growth_scorecard.py --template`。
+- 评分脚本可单独跑：`python .claude/skills/single-stock-analyze/scripts/growth_scorecard.py --template`。
 
 > **免责声明**：本项目只提供研究支持与推理，**不构成投资建议**，不下买卖指令、不承诺收益。最终决策与责任在用户。

@@ -1,5 +1,5 @@
 {
-  "skill_name": "growth-stock-judge",
+  "skill_name": "single-stock-analyze",
   "evals": [
     {
       "id": 1,
@@ -28,7 +28,7 @@
     {
       "id": 3,
       "prompt": "美股 AI 半导体这个赛道，哪几家最值得研究？",
-      "expected_output": "This is a multi-stock theme scan, NOT single-stock judgment — growth-stock-judge should defer to serenity-skill rather than produce a single-name verdict.",
+      "expected_output": "This is a multi-stock theme scan, NOT single-stock judgment — single-stock-analyze should defer to serenity-skill rather than produce a single-name verdict.",
       "files": [],
       "assertions": [
         "Does NOT force a single-stock scorecard verdict on a whole sector.",

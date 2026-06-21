@@ -41,6 +41,20 @@
 ## 护城河 / 产业链位置
 {{MOAT}}
 
+## 👤 管理层 / 领导力
+> **定性，不打分**——从"人"的维度判发展潜力。四维度各一小段 + 一句净判断；每条标证据级（强/中/弱/待核实）并给来源链接。方法见 `references/management-analysis.md`。
+### 创始人 / CEO 背景与往绩
+{{MGMT_FOUNDER}}
+### 愿景与战略执行力（said-vs-done）
+{{MGMT_EXECUTION}}
+### 利益绑定（skin in the game）
+{{MGMT_ALIGNMENT}}
+### 团队稳定性 / 关键人物风险
+{{MGMT_TEAM}}
+### 对发展潜力的净判断
+{{MGMT_NET}}
+> 一句话：管理层是加分项还是扣分项 + 关键人物风险；并注明联动了哪个现有键（`governance` / `management_capital_allocation` / 红线）。结论框的信心等级应反映这一判断。
+
 ## 单位经济性 / 盈利路径
 {{UNIT_ECONOMICS}}
 

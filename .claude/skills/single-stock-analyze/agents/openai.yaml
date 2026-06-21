@@ -1,0 +1,9 @@
+interface:
+  display_name: "Growth Stock Judge"
+  short_description: "Judges whether a specific US growth stock is worth investing in"
+  brand_color: "#0B5FFF"
+  default_prompt: "Use single-stock-analyze to analyze a US ticker through a growth-investing lens and return a verdict-first judgment: is it worth investing now, with a scorecard, latest-earnings read, and risk/利空 (lockups, offerings, insider selling, downgrades, options) section."
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools: []
