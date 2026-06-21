@@ -1,6 +1,6 @@
 # 单股深度研究工作流（10 步）
 
-给定一个美股代码，按此 10 步研究一只成长股，最后用评分卡出结论。多 agent 模式下，第 1-8 步由 `references/agent-roster.md` 的 7 个研究子代理**并行**承担，第 9-10 步由 `judge-synthesizer` 综合（编排见 `references/orchestration.md`）；单 agent 兜底时同一个 agent 按本顺序逐步跑。
+给定一个美股代码，按此 10 步研究一只成长股，最后用评分卡出结论。多 agent 模式下，第 1-8 步由 `references/agent-roster.md` 的 8 个研究子代理**并行**承担，第 9-10 步由 `judge-synthesizer` 综合（编排见 `references/orchestration.md`）；单 agent 兜底时同一个 agent 按本顺序逐步跑。
 
 > **铁律（贯穿全程）**：现价、现状、最新财报、估值倍数、解禁日、内部人交易等**必须联网查证，不靠记忆**。拿不到的数据标"待核实"并给查证路径（在哪个文件/数据源能查到），**绝不编造数字**。证据分级沿用 serenity 的 `references/evidence-ladder.md`（强/中/弱/待核实）；不在场时用 SKILL.md 内精简分级表兜底。各评分键名以 `scripts/growth_scorecard.py` 为准。
 
@@ -58,6 +58,17 @@
 > **serenity 复用**：稀缺层/卡点判断借用 `serenity-skill/references/public-profile-and-evaluation.md` 与 `deep-research-workflow.md` 的思路。**兜底**：serenity 不在场时，按本步骤的壁垒来源清单自行判断，不阻塞。
 
 **评分键**：`moat_chain_position`。锚点见 `references/growth-scoring-rubric.md`。
+
+## 5b. 管理层 / 领导力（定性，不打分）
+
+从"人"的维度判发展潜力。详细四维度 checklist 见 `references/management-analysis.md`。
+
+- 创始人/CEO 背景与往绩；是否 founder-led。
+- 愿景与战略执行力：承诺兑现率（said-vs-done）、战略连贯性。
+- 利益绑定：内部人持股、薪酬是否对齐长期（DEF 14A / Form 4）。
+- 团队稳定性 / 关键人物风险：高管流失、key-person 依赖、接班深度。
+
+**不新增因子**：本步定性，写进报告「👤 管理层 / 领导力」节；可定性联动现有键 `management_capital_allocation`（与第 6 步资本配置重叠，综合代理择优）、`governance` 惩罚、诚信红线 `accounting_fraud_suspicion`、关键人物出走作 `growth_engine_broken` 输入。
 
 ## 6. 单位经济性
 
