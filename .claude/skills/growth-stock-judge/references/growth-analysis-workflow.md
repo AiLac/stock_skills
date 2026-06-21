@@ -1,6 +1,6 @@
 # 单股深度研究工作流（11 步）
 
-给定一个美股代码，按此 10 步研究一只成长股，最后用评分卡出结论。多 agent 模式下，第 1-8 步由 `references/agent-roster.md` 的 8 个研究子代理**并行**承担，第 9-10 步由 `judge-synthesizer` 综合（编排见 `references/orchestration.md`）；单 agent 兜底时同一个 agent 按本顺序逐步跑。
+给定一个美股代码，按此 11 步研究一只成长股，最后用评分卡出结论。多 agent 模式下，第 1-8 步由 `references/agent-roster.md` 的 8 个研究子代理**并行**承担，第 9-10 步由 `judge-synthesizer` 综合（编排见 `references/orchestration.md`）；单 agent 兜底时同一个 agent 按本顺序逐步跑。
 
 > **铁律（贯穿全程）**：现价、现状、最新财报、估值倍数、解禁日、内部人交易等**必须联网查证，不靠记忆**。拿不到的数据标"待核实"并给查证路径（在哪个文件/数据源能查到），**绝不编造数字**。证据分级沿用 serenity 的 `references/evidence-ladder.md`（强/中/弱/待核实）；不在场时用 SKILL.md 内精简分级表兜底。各评分键名以 `scripts/growth_scorecard.py` 为准。
 
@@ -121,6 +121,6 @@
 - 以 `assets/scorecard-input.json` 为**模板复制一份临时文件**（如 `/tmp/<ticker>-scorecard.json`，**别改动模板本身**），在临时文件里填 8 个因子（0-5）、8 个惩罚项（0-5）、3 个红线（true/false）。
 - 运行 `python scripts/growth_scorecard.py /tmp/<ticker>-scorecard.json --format both`，得到**总分**、**质量分**、**买点分**、**结论分档**与**红线封顶状态**。
 - 结论分档：≥85 强信心值得投资；70-84 值得投资；55-69 观望 / 建仓试探；<55 暂不值得 / 回避；**命中红线封顶为"回避 / 观望"**（无论原始分多高）。
-- 按 `assets/stock-verdict-template.md` 写"结论先行"的 11 节报告，结论同时给出**双轴**（好公司但偏贵 → 观望/分批 这类细腻判断）。
-- 报告第 10 节的**催化 / 日历**要排密、别只写"下次财报"：按时间列出所有适用的事件类型，每条标日期或"待核实"。完整事件类型清单见 `references/earnings-readthrough.md` 末尾「催化 / 日历事件类型」。
-- 报告第 11 节**证据与来源**尽量给**可点击链接**（[来源名](URL)），方便用户核查与拓展阅读。
+- 按 `assets/stock-verdict-template.md` 写"结论先行"的 12 节报告，结论同时给出**双轴**（好公司但偏贵 → 观望/分批 这类细腻判断）。
+- 报告第 11 节的**催化 / 日历**要排密、别只写"下次财报"：按时间列出所有适用的事件类型，每条标日期或"待核实"。完整事件类型清单见 `references/earnings-readthrough.md` 末尾「催化 / 日历事件类型」。
+- 报告第 12 节**证据与来源**尽量给**可点击链接**（[来源名](URL)），方便用户核查与拓展阅读。
