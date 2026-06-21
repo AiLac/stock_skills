@@ -38,7 +38,7 @@
 
 - [ ] 8 个研究子代理并行分派（互相独立、无共享状态），各自联网取证。
 - [ ] management-analyst 与其余 7 个一同在同一回合并行分派（共 8 个）。
-- [ ] 子代理统一回传 `assets/agent-findings-schema.json` 结构（`findings[]` / `flags[]` / `needs_checking[]` / `suggested_factor_scores` / `suggested_penalties`）。
+- [ ] 子代理统一回传 `assets/agent-findings-schema.json` 结构（`module` / `ticker` / `summary` / `findings[]` / `flags[]` / `needs_checking[]` / `suggested_factor_scores` / `suggested_penalties` / `suggested_red_lines`）。
 - [ ] `judge-synthesizer` 在所有研究代理返回后（barrier）汇总，跑 `scripts/growth_scorecard.py` 打分出结论。
 - [ ] 单个子代理失败 / 数据不足时，对应模块标「待核实」，不阻塞出结论；命中红线则封顶。
 - [ ] 无多 agent 能力时，单 agent 顺序执行兜底仍可跑通。
