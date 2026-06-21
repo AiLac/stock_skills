@@ -1,6 +1,6 @@
 # 示例：TSLA（Tesla）成长股投资判断（worked example）
 
-> **真实走查示例**，由 growth-stock-judge 的多 agent 流程联网生成，数据截至 **2026-06-16**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 12 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
+> **真实走查示例**，由 growth-stock-judge 的 **8-agent 完整 fan-out**（含新增的 management-analyst）联网生成，数据截至 **2026-06-16**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 12 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
 
 本文件从 `assets/stock-verdict-template.md` 端到端填出，内部一致：下方评分卡 JSON 经 `scripts/growth_scorecard.py` 算出的 verdict 与报告"结论"一致。
 
@@ -65,7 +65,7 @@
 | 红线 | 状态 | 说明 |
 |---|:--:|---|
 | accounting_fraud_suspicion | 未触发 | 一次性项与监管积分是披露质量问题、非造假；无 SEC 立案，报表 GAAP 合规 |
-| core_customer_loss | 未触发（接近） | 风险代理标 TRUE（[欧洲 -44%](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-decline/)、美国 8 年低份额、创始客群流失）；综合代理判为**严重惩罚级**而非硬红线——Tesla 仍[夺回全球纯电第一](https://carboncredits.com/tesla-reclaims-ev-crown-from-byd-in-q1-2026-tsla-stock/)、中国一季度回暖；**若美/欧份额继续下滑则升级为红线封顶** |
+| core_customer_loss | 未触发（接近） | 风险代理标 TRUE（[欧洲 -44%](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-decline/)、美国 8 年低份额、创始客群流失）；综合代理判为**严重惩罚级**而非硬红线——Tesla 仍售约 1.6M 辆 + 有 AI 期权（非单一大客户骤失）。**但本轮重跑证据更强**：2025 已被 [BYD 反超为全球电动车第一](https://techcrunch.com/2026/01/02/tesla-annual-sales-decline-9-as-its-overtaken-by-byd-as-global-ev-leader/)（2.26M vs 1.64M、连续第二年下滑），创始客群结构性流失；**若美/欧份额继续下滑即升级为红线封顶** |
 | growth_engine_broken | 未触发 | 营收重新加速 +16%、毛利从低谷回升；但"下一代引擎"(Robotaxi/Optimus) 商业化≈0，二元性极大 |
 
 ## 投资逻辑
@@ -120,7 +120,7 @@ Elon Musk 是 Tesla 的联合创始人（2004 年加入、后成最大股东兼 
 ### 团队稳定性 / 关键人物风险
 **关键人物风险：极高**——这是整份管理层分析最重要的结论。Tesla 几乎完全系于 Musk 一人：战略、产品、品牌、融资叙事均由他主导；无公认的 COO/二号人物。
 
-- **高管流失**：近年 CFO Zachary Kirkhorn（2023 年 8 月离职，未给明确原因）、多位工程/AI 高管出走（其中多人加入 xAI）——**中证据**，信号偏负面。
+- **高管流失（深且广）**：2024–2026 已知离职 9+ 位，横跨电池/工程/Optimus/销售/运营——Drew Baglino（电池/工程 SVP，18 年）、Rebecca Tinucci（超充，整组）、Martin Viecha（IR VP）于 2024/4；Vineet Mehta（电池高管）2025/5；Milan Kovac（Optimus 负责人）2025/6；Omead Afshar（北美/欧洲运营主管）、Troy Jones（北美销售 VP，15 年）2025/7 等——**中证据**（[Benzinga 高管离职追踪](https://www.benzinga.com/markets/tech/25/07/46432860/tesla-leaders-take-the-exit-lane-where-have-all-the-execs-gone)、[CNBC](https://www.cnbc.com/2024/04/15/tesla-execs-drew-baglino-and-rohan-patel-depart-amid-steep-layoffs.html)），机构知识被掏空、信号偏负面。
 - **分心风险**：Musk 同时担任 SpaceX CEO、xAI CEO、X 董事长、Boring Company 与 Neuralink 负责人，2025 年进入美国政府效率部门（DOGE）——公开信息显示其注意力严重分散（**中证据**）。若 Q3 披露 Tesla 投入 <50% 工作时间，$56B 薪酬包的人力资本理由崩塌，见报告风险章节 kill-switch 第 3 条。
 - **接班深度**：无明确接班人计划，文化高度个人化。Glassdoor 员工评分近年略下滑（弱证据，仅参考）。
 
