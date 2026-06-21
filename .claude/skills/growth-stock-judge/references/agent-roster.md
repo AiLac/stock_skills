@@ -37,7 +37,7 @@
 ## moat-economics-analyst
 
 - **Mission**：判断竞争壁垒强不强、未来能不能赚钱。
-- **拥有的模块 / 流程步骤**：护城河 + 单位经济性（流程 5-6）。
+- **拥有的模块 / 流程步骤**：护城河 + 单位经济性（流程 5（护城河）+ 6（单位经济性））。
 - **取证重点**：护城河/产业链位置（借 serenity 的稀缺层/卡点思路）、毛利率、经营杠杆、FCF 趋势、盈利路径、相对竞品定位。
 - **回传字段**：
   - 因子键：`moat_chain_position`、`unit_economics_profit_path`。
@@ -94,5 +94,5 @@
 - **取证重点**：调和重叠的 `suggested_factor_scores`（取证据更强的一方）；合并 `flags[]`、`needs_checking[]`；按 `assets/agent-findings-schema.json` 读取，组装评分卡输入。
 - **闭环核实（出报告前必做）**：汇总所有 `needs_checking[]` 与取证失败项，按 SKILL.md「🔁 闭环核实协议」分流并**再发一轮定向核实子代理**补齐——(A) 有源路径的去查、(B) fetch 失败的换路再取、(C) 真正不可得的才保留。能查到的写进正文，不甩给用户；这步在打分/写报告之前完成。
 - **预期再定价合成（出报告前必做）**：把 earnings-analyst 的「财报后反应 + 远期一致预期修正方向」、valuation-analyst 的「隐含预期 / 背离」、positioning-options-analyst 的「价格行为」**合成为一个**「市场在边际上重估什么 / 基本面 vs 股价背离是否合理」读数，**强制写进报告第 8 节的「市场在重估什么 / 基本面 vs 股价背离」子块**，并据此校准（连同解释）`entry_expectations`。护栏：价格属中/弱证据，解释背离、不按涨跌机械打分；存在背离时第 1 节 one-liner 须点名。
-- **回传字段**：不新拥有键——**调和全部因子/惩罚/红线键**，以 `assets/scorecard-input.json` 为模板复制临时文件填分（勿覆盖模板）后运行 `scripts/growth_scorecard.py`（含双轴、惩罚、红线封顶），按 `assets/stock-verdict-template.md` 写"结论先行"的 11 节报告。
+- **回传字段**：不新拥有键——**调和全部因子/惩罚/红线键**，以 `assets/scorecard-input.json` 为模板复制临时文件填分（勿覆盖模板）后运行 `scripts/growth_scorecard.py`（含双轴、惩罚、红线封顶），按 `assets/stock-verdict-template.md` 写"结论先行"的 12 节报告。
 - **证据要求**：每条结论标 强/中/弱/待核实；红线命中则封顶，不让高分掩盖致命问题。

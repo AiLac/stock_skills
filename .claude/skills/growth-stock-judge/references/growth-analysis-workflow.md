@@ -1,4 +1,4 @@
-# 单股深度研究工作流（10 步）
+# 单股深度研究工作流（11 步）
 
 给定一个美股代码，按此 10 步研究一只成长股，最后用评分卡出结论。多 agent 模式下，第 1-8 步由 `references/agent-roster.md` 的 8 个研究子代理**并行**承担，第 9-10 步由 `judge-synthesizer` 综合（编排见 `references/orchestration.md`）；单 agent 兜底时同一个 agent 按本顺序逐步跑。
 

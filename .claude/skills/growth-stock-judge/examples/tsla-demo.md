@@ -1,6 +1,6 @@
 # 示例：TSLA（Tesla）成长股投资判断（worked example）
 
-> **真实走查示例**，由 growth-stock-judge 的多 agent 流程联网生成，数据截至 **2026-06-16**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 11 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
+> **真实走查示例**，由 growth-stock-judge 的多 agent 流程联网生成，数据截至 **2026-06-16**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 12 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
 
 本文件从 `assets/stock-verdict-template.md` 端到端填出，内部一致：下方评分卡 JSON 经 `scripts/growth_scorecard.py` 算出的 verdict 与报告"结论"一致。
 
@@ -88,6 +88,51 @@
 ## 护城河 / 产业链位置
 - **真护城河**：[Supercharger/NACS 占美国 52% 快充口、几乎全行业采用](https://usevchargingstations.info/guides/nacs-transition/)——基础设施壁垒，越多非 Tesla 车加入越强；FSD 真实数据规模领先。
 - **在被侵蚀**：实景 Robotaxi 运营 [Waymo 远超（TX ~577 vs Tesla ~42 辆）](https://www.techtimes.com/articles/318160/20260610/tesla-robotaxi-trails-waymo-42-577-texasaustin-map-masks-20-car-fleet-until-fsd-v15-rewrite.htm)；中国端 [BYD + 华为 ADS 从品牌和技术两头夹](https://www.teslaacessories.com/blogs/news/fsd-vs-competitors-can-tesla-outperform-byd-and-huawei-in-autonomous-driving-technology-)。→ moat 3。
+
+## 👤 管理层 / 领导力
+> **定性，不打分**——从"人"的维度判发展潜力。四维度各一小段 + 一句净判断；每条标证据级（强/中/弱/待核实）并给来源链接。方法见 `references/management-analysis.md`。
+
+### 创始人 / CEO 背景与往绩
+Elon Musk 是 Tesla 的联合创始人（2004 年加入、后成最大股东兼 CEO），任期超 20 年，是典型的创始人主导（founder-led）公司——**强**。履历：PayPal 联合创始人（2002 年以 $1.5B 出售 eBay）；SpaceX CEO（迄今）；xAI、X（Twitter）、Boring Company、Neuralink 均持有或主导。在 Tesla 任内：主导量产 Model S/3/X/Y，推动 Supercharger 网络全行业标准化（NACS），启动 Dojo 超算与 FSD 自研；任内股价从 IPO ~$17 到 2024 峰值逾 $400——**过往在 Tesla 本身有确实的执行成绩，但跨公司分心是显著风险**（见第四维度）。→ 创始人主导加分；过往履历强证据。
+
+来源：[Tesla 10-K 2023 管理层履历](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)（强）、[Harvard Law 公司治理评述](https://corpgov.law.harvard.edu/)（强）。
+
+### 愿景与战略执行力（said-vs-done）
+长期愿景清晰（"加速全球向可持续能源转型"+ Robotaxi + Optimus）且方向稳定；问题在**承诺兑现率**——中。过去 3 年公开承诺 vs 实际兑现：
+
+| 承诺 | 给出时间 | 实际结果 |
+|---|---|---|
+| Robotaxi 2020 年大规模上路 | 2019 | 至今（2026-06）仅 Austin ~42 辆试运营 |
+| Cybertruck 2021 年底量产 | 2019 | 实际 2023 年末；良品率受损初期盈利低 |
+| FSD 完全自动驾驶"明年" | 连续多年 | 尚在监督模式（Level 2+）；NHTSA 工程分析中 |
+| Semi 2019 年交付 | 2017 | 2022 年末开始小批量 |
+
+战略连贯性尚可（能源 + 自动驾驶两条线从未放弃），但时间线反复跳票是体质——**中证据**，削弱执行力信心，压制`management_capital_allocation`评分。
+
+### 利益绑定（skin in the game）
+- **持股**：Musk 持有约 13% Tesla 股权（2026 DEF 14A；在 xAI/X 持股稀释后仍为第一大股东）——**强**，与股东利益深度绑定。
+- **薪酬结构**：2018 年 $56B 期权包（全无固定薪酬）按 12 个市值/运营里程碑分批解锁，设计上与**长期**里程碑挂钩——理念正确。但2024 年股东大会经法院裁决后仍批准该薪酬（[CNBC 报道](https://www.cnbc.com/2025/11/06/tesla-shareholders-musk-pay.html)），且 2025 年再获 $1T 市值里程碑的 424M 期权包，数额超大，被公司治理机构普遍批评缺乏独立性——**governance 惩罚联动**（强证据）。
+- **关联交易**：Musk 多次在 Tesla 与其个人公司之间进行资源调配（Dojo 算力、SpaceX 采购 Tesla 能源产品等），透明度争议存在——**中证据**，构成`governance`扣分依据之一。
+- **董事会构成**：独立董事多为 Musk 亲属/长期关联方（Kimbal Musk 为兄弟，多位任职超 10 年），覆盖法院裁决仍批准薪酬——董事会实质俘获是 `governance` 打 4 分（最高惩罚之一）的核心依据。
+
+来源：[2026 DEF 14A](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=DEF+14A)（强）、[Harvard Law / 公司治理研究所点名](https://corpgov.law.harvard.edu/)（强）。
+
+### 团队稳定性 / 关键人物风险
+**关键人物风险：极高**——这是整份管理层分析最重要的结论。Tesla 几乎完全系于 Musk 一人：战略、产品、品牌、融资叙事均由他主导；无公认的 COO/二号人物。
+
+- **高管流失**：近年 CFO Zachary Kirkhorn（2023 年 8 月离职，未给明确原因）、多位工程/AI 高管出走（其中多人加入 xAI）——**中证据**，信号偏负面。
+- **分心风险**：Musk 同时担任 SpaceX CEO、xAI CEO、X 董事长、Boring Company 与 Neuralink 负责人，2025 年进入美国政府效率部门（DOGE）——公开信息显示其注意力严重分散（**中证据**）。若 Q3 披露 Tesla 投入 <50% 工作时间，$56B 薪酬包的人力资本理由崩塌，见报告风险章节 kill-switch 第 3 条。
+- **接班深度**：无明确接班人计划，文化高度个人化。Glassdoor 员工评分近年略下滑（弱证据，仅参考）。
+
+→ 关键人物依赖极高，Musk 若大幅减少投入 Tesla，将触发 `growth_engine_broken` 风险输入，综合代理需关注。
+
+### 对发展潜力的净判断
+**管理层整体是发展潜力的「有条件加分项 / 高风险项」**：
+
+- **加分**：创始人深度绑定（持股 ~13%）+ 长期愿景稳定 + 过往在 Tesla 本身有实质执行成绩（量产 + 超充网络 + FSD 数据规模）。
+- **扣分**：承诺兑现率差（Robotaxi/FSD 反复跳票）+ 董事会实质俘获（`governance` 4 分）+ 跨公司分心极严重（关键人物风险高）+ 薪酬结构争议大。
+- **联动键**：`governance` 惩罚已按 4 分记入评分卡（董事会俘获 + 薪酬批准为强证据核心依据）；`management_capital_allocation` 评为 2 分（历史资本配置有成果但近期 capex 超 $25B 而 FCF ≈ -$8.5B，且分心削弱前景）；**诚信红线未触发**（无 SEC 立案、无造假强证据）；Musk 重大减少 Tesla 投入 → `growth_engine_broken` 风险输入（尚未发生，列 kill-switch 第 3 条）。
+- **结论框影响**：关键人物风险使得中期信心有顶板——即便 Robotaxi/Optimus 叙事兑现，执行能力也高度取决于 Musk 是否真的专注 Tesla。这是"高潜力但高依赖"的双刃结构，信心等级定为「中高」而非「高」。
 
 ## 单位经济性 / 盈利路径
 - 汽车 ex-credits GM 19.2%（含一次性，真实可能 17-18%）；储能 GM 高（[2025 全年 29.8%](https://www.energy-storage.news/tesla-energy-storage-deployments-jumped-in-crucial-ai-transformation-year-company-expects-margin-compression-in-2026/)，2026 指引压缩）。
