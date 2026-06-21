@@ -1,277 +1,340 @@
-# 示例：TSLA（Tesla）成长股投资判断（worked example）
+# 示例：TSLA（Tesla, Inc.）成长股投资判断（worked example）
 
-> **真实走查示例**，由 single-stock-analyze 的 **8-agent 完整 fan-out**（含新增的 management-analyst 与 company-profiler 深化）联网生成，数据截至 **2026-06-21**。展示本 skill 的标准输出形态：结论先行 + 评分卡 + 13 节报告，**每条结论标证据等级、来源给可点击超链接、能查的查进正文、催化日历排密**。价格与数据随时变动，**研究用途，不构成投资建议**。
+> **本示例由真实 8-agent 联网重跑生成，数据截至 2026-06-21。**
+> 由 single-stock-analyze 的 **8-agent 完整 fan-out**（`company-profiler` + `earnings-analyst` + `growth-analyst` + `moat-economics-analyst` + `valuation-analyst` + `risk-analyst` + `positioning-options-analyst` + `management-analyst`）联网取证后，`judge-synthesizer` 综合出分并按 13 节模板成文。展示本 skill 的标准输出形态：**结论先行 + 评分卡 + 13 节报告**，每条结论标证据等级（强 / 中 / 弱 / 待核实）、来源给可点击超链接、催化日历排密。价格与数据随时变动，**研究用途，不构成投资建议**。
 
-本文件从 `assets/stock-verdict-template.md` 端到端填出，内部一致：下方评分卡 JSON 经 `scripts/growth_scorecard.py` 算出的 verdict 与报告"结论"一致。
-
----
-
-### 评分卡输入 JSON（喂给 `growth_scorecard.py`）
-
-```json
-{
-  "ticker": "TSLA",
-  "company": "Tesla, Inc.",
-  "factors": {
-    "revenue_growth_durability": 2.5, "tam_penetration": 3, "moat_chain_position": 3,
-    "unit_economics_profit_path": 2.5, "product_customer_momentum": 3, "management_capital_allocation": 2,
-    "valuation_growth_match": 1, "entry_expectations": 1
-  },
-  "penalties": {
-    "dilution_financing": 1, "customer_concentration": 2, "accounting_quality": 2, "governance": 4,
-    "competition_disruption": 3.5, "regulation_geopolitics": 3.5, "liquidity_bubble": 3, "lockup_insider_supply": 2
-  },
-  "red_lines": {"accounting_fraud_suspicion": false, "core_customer_loss": false, "growth_engine_broken": false}
-}
-```
-脚本输出（关键行）：`结论：暂不值得 / 回避｜总分 5.2｜质量分 54.0｜买点分 20.0｜原始因子分 47.2｜惩罚扣分 42.0`
+本文件从 `assets/stock-verdict-template.md` 端到端填出，内部一致：第 2 节「评分卡」嵌入的 JSON 经 `scripts/growth_scorecard.py` 算出的 verdict（`暂不值得 / 回避`，总分 23.6）与第 1 节「结论」一致。
 
 ---
 
 # TSLA（Tesla, Inc.）成长股投资判断
 
 ## 结论
-**暂不值得 / 回避（当前买点）**　｜　信心：中高
-**质量分 54.0 / 买点分 20.0 / 总分 5.2**　｜　红线：未触发（但 core_customer_loss 接近，见下）
-一句话：一个真实的 AI/自动驾驶**期权**，被钉在一个汽车业务处于利润低谷、品牌在核心市场流失的躯壳上，却按 [~190x 前瞻市盈率](https://stockanalysis.com/stocks/tsla/statistics/) 定价。生意本身只算中等（质量 54），但**治理、监管、竞争、品牌**四重风险叠加把总分几乎打到地板——**好故事、坏价格、重风险 → 现价回避**。
+**暂不值得 / 回避（当前价位）**　｜　信心：中高
+质量分 65.0 / 买点分 28.0 / 总分 23.6
+一句话：Tesla 是一家真实的、护城河多重的好公司（质量分 65），但市场正在**边际上重估它最核心的两件事——增长持续性与治理可信度**：汽车主业 2025 年首次年度负增长、欧洲/中国品牌结构性受损，而 ~$1.50 万亿市值（[前瞻 P/S ~14×、Rule-of-40 仅 ~12](https://stockanalysis.com/stocks/tsla/statistics/)）几乎全部押在尚未变现的 Robotaxi/Optimus 期权上——叠加治理（$1 万亿薪酬 + $5.73 亿关联交易 + $2B xAI→SpaceX 转换）与监管（四项 NHTSA 调查 + DOJ/SEC FSD 欺诈调查）双 4 分惩罚，把总分从 57.6 的原始因子分压到 23.6。**好公司，但市场正在重估增长持续性与治理可信度、且现价已透支期权价值 → 现价回避，等期权变现或估值 reset。**
 
-> 这与卖方"持有、目标价≈$420（仅 +2%）"基本一致；多数 DCF（[GF Value $287](https://www.gurufocus.com/term/forward-pe-ratio/TSLA)、[Alpha Spread $16](https://www.alphaspread.com/security/nasdaq/tsla/dcf-valuation/base-case)）显示深度高估。本 skill 把"AI 期权值不值这个价 + 风险负荷"算进结论，所以给"回避"。
+> 这与卖方共识基本一致：[27 位分析师"持有"、均值目标价 ~$395–420（≈ 现价）](https://stockanalysis.com/stocks/tsla/ratings/)，目标价区间却横跨 [$25（GLJ）到 $600+（Wedbush）](https://www.benzinga.com/quote/TSLA/analyst-ratings)——市场对"如何给期权定价"毫无共识。本 skill 把"期权值不值这个价 + 治理/监管风险负荷"算进结论，给"回避"。**红线未触发**，但 DOJ/SEC FSD 调查若升级即可能触发 `accounting_fraud_suspicion`（见第 11 节「⚠️ 风险与利空」）。
 
 ## 评分卡
+
+### 评分卡输入 JSON（喂给 `scripts/growth_scorecard.py`）
+
+```json
+{
+  "ticker": "TSLA",
+  "company": "Tesla, Inc.",
+  "factors": {
+    "revenue_growth_durability": 3,
+    "tam_penetration": 4,
+    "moat_chain_position": 4,
+    "unit_economics_profit_path": 3,
+    "product_customer_momentum": 3,
+    "management_capital_allocation": 2,
+    "valuation_growth_match": 1,
+    "entry_expectations": 2
+  },
+  "penalties": {
+    "dilution_financing": 2,
+    "customer_concentration": 1,
+    "accounting_quality": 1,
+    "governance": 4,
+    "competition_disruption": 1,
+    "regulation_geopolitics": 4,
+    "liquidity_bubble": 3,
+    "lockup_insider_supply": 1
+  },
+  "red_lines": {
+    "accounting_fraud_suspicion": false,
+    "core_customer_loss": false,
+    "growth_engine_broken": false
+  },
+  "what_could_weaken_view": [
+    "Cybercab/Robotaxi 2026 内提前放量并贡献可见收入（管理层指引 2027 才 material），把期权价值兑现，推翻'故事尚未变现'的判断",
+    "DOJ/SEC FSD 营销欺诈调查若升级为正式起诉或处罚，accounting_fraud_suspicion 红线可能被触发，结论从'回避'转为'红线封顶'",
+    "汽车毛利率剔除一次性后回到 17-18% 并继续走低、Q2 交付再 miss，则 unit_economics 与 revenue_growth_durability 应下调"
+  ]
+}
+```
+
+脚本输出（关键行）：`结论：暂不值得 / 回避｜总分 23.6｜质量分 65.0｜买点分 28.0｜原始因子分 57.6｜惩罚扣分 34.0｜红线：未触发`
+
+### 因子（前 6 项＝质量分共 80，后 2 项＝买点分共 20）
 | 因子 | 评分(0-5) | 权重 | 得分 | 轴 |
 |---|---:|---:|---:|---|
-| revenue_growth_durability | 2.5 | 18 | 9.0 | 质量 |
-| tam_penetration | 3.0 | 14 | 8.4 | 质量 |
-| moat_chain_position | 3.0 | 14 | 8.4 | 质量 |
-| unit_economics_profit_path | 2.5 | 14 | 7.0 | 质量 |
-| product_customer_momentum | 3.0 | 12 | 7.2 | 质量 |
-| management_capital_allocation | 2.0 | 8 | 3.2 | 质量 |
-| valuation_growth_match | 1.0 | 12 | 2.4 | 买点 |
-| entry_expectations | 1.0 | 8 | 1.6 | 买点 |
+| revenue_growth_durability | 3 | 18 | 10.8 | 质量 |
+| tam_penetration | 4 | 14 | 11.2 | 质量 |
+| moat_chain_position | 4 | 14 | 11.2 | 质量 |
+| unit_economics_profit_path | 3 | 14 | 8.4 | 质量 |
+| product_customer_momentum | 3 | 12 | 7.2 | 质量 |
+| management_capital_allocation | 2 | 8 | 3.2 | 质量 |
+| valuation_growth_match | 1 | 12 | 2.4 | 买点 |
+| entry_expectations | 2 | 8 | 3.2 | 买点 |
 
-### 惩罚项（×2 倍率，合计扣 42.0 分）
+总分 **23.6**　｜　质量分 **65.0**　｜　买点分 **28.0**　｜　原始因子分 57.6
+
+### 惩罚项（×2 倍率，合计扣 34.0 分）
 | 惩罚项 | 评分(0-5) | 扣分 | 理由 |
 |---|---:|---:|---|
-| governance | 4 | 8.0 | 董事会被实质俘获、覆盖法院裁决批 $56B 薪酬、未约束 Musk 跨 5 家公司分心（Harvard Law / 公司治理研究所均点名） |
-| competition_disruption | 3.5 | 7.0 | 三重夹击：Waymo 实景 L4 领先、BYD+华为 ADS 蚕食中国、撑利润的监管积分面临立法取消 |
-| regulation_geopolitics | 3.5 | 7.0 | NHTSA 对 320 万辆 FSD 升级工程分析（recall 前一步）；Robotaxi 全国部署无联邦批准；加州仍需人类驾驶 |
-| liquidity_bubble | 3 | 6.0 | 散户/meme 资金集中、约 $300+/股纯期权溢价、ATH 三周回撤 25% 的泡沫式波动 |
-| customer_concentration | 2 | 4.0 | 无单一大客户，但高度依赖美/中两大承压市场，欧洲塌方削弱分散度 |
-| accounting_quality | 2 | 4.0 | 一次性保修/关税项美化毛利且拒绝拆分；FSD 订阅数含历史购买者、口径偏松 |
-| lockup_insider_supply | 2 | 4.0 | 董事会成员（Denholm/Kimbal/Wilson-Thompson）持续 10b5-1 减持；Musk 本人无公开市场卖出 |
-| dilution_financing | 1 | 2.0 | 304M+424M 股薪酬期权锁定至 2028-2033，近期流通盘稀释低，仅 $9.97B SBC 入表拖累 |
+| dilution_financing | 2 | 4.0 | SBC Q1 2026 飙至 $10.3 亿（+80% YoY）、年化 ~$44 亿且无回购对冲；2025 CEO 薪酬方案 4.237 亿股（占已发行股本 ~12%）为多年稀释悬顶——但近期无 ATM/S-3 增发，$447 亿现金无被动稀释压力 [中]。 |
+| customer_concentration | 1 | 2.0 | 个人/B 端客户高度分散，无单一客户达营收 10%；惩罚低分仅来自地理集中（美国 49% + 中国 22% ≈ 71%），但该项主要计入 regulation_geopolitics [强]。 |
+| accounting_quality | 1 | 2.0 | 现金流与利润大体匹配（OCF $39.4 亿 vs GAAP 净利 $4.77 亿，差异为 SBC/折旧合理项）；红旗在于 Q1 毛利含 ~$4.8 亿一次性（关税退款 + 质保拨回）粉饰、且公司不单项披露金额，使"干净经常性毛利"不可验证 [中]。 |
+| governance | 4 | 8.0 | 严重治理问题：董事会主席 Denholm 自 2014 累计获 $6.82 亿薪酬、独立性受特拉华法院质疑；2025 年 $1 万亿薪酬方案在 Musk 公开威胁离职下强行通过（ISS/Glass Lewis 均反对）；$5.73 亿关联交易网络；$2B xAI 投资未经再批准即转为 SpaceX 股权——多条 [强] 证据。 |
+| competition_disruption | 1 | 2.0 | 竞争加剧但护城河尚未被实质击穿：全球 BEV 销量被 BYD 超越（2025 年 BYD 226 万 vs Tesla 164 万）、美国份额从 49%→46%、欧洲 13 个月连降；但 Tesla 仍保 FSD 数据飞轮 + 充电网络 + 美国 EV 利润领先，Q1 2026 还短暂夺回纯电季度销冠 [中]。 |
+| regulation_geopolitics | 4 | 8.0 | 监管/地缘风险密集：四项并行 NHTSA 调查（FSD 涉 290 万辆、Autopilot、门把手、低能见度）、DOJ（刑事）+ SEC（民事）FSD 营销欺诈调查、$7,500 美国 EV 税收抵免 2025 年 7 月取消、欧洲连降 + 中国零售同比 -45%、关税与 TSMC 芯片地缘敞口——多条 [强] 证据。 |
+| liquidity_bubble | 3 | 6.0 | 估值泡沫化但流动性极好：P/S 15.3×、EV/EBITDA 133×、前瞻 P/E ~194×、PEG ~8×，全部远超纯汽车可比（BYD ~1×、Rivian ~4×），溢价全押 AI/Robotaxi 期权；高估值对利率/风险偏好高度敏感，但日均成交 4,480 万股、机构持股 66%，无流动性枯竭 [强/中]。 |
+| lockup_insider_supply | 1 | 2.0 | 近期筹码面供给压力低：Musk 2026 年 6 月行权 3.04 亿份期权但**零公开市场卖出**，新股锁定至 2028 年 1 月 + 5 年限售（到 2033）；董事级减持温和（12 个月共 ~$1.64 亿，多为例行）；空头仅 2.56% 流通盘、1.7 天回补 [强/中]。 |
+
+> 红线虽未触发，但 governance(4) + regulation_geopolitics(4) 两项满载惩罚 = 扣 16 分，是把"质量 65 的好公司"打到"总分 23.6 回避"的主因。
 
 ### 红线（kill-switch）
 | 红线 | 状态 | 说明 |
 |---|:--:|---|
-| accounting_fraud_suspicion | 未触发 | 一次性项与监管积分是披露质量问题、非造假；无 SEC 立案，报表 GAAP 合规 |
-| core_customer_loss | 未触发（接近） | 风险代理标 TRUE（[欧洲 -44%](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-decline/)、美国 8 年低份额、创始客群流失）；综合代理判为**严重惩罚级**而非硬红线——Tesla 仍售约 1.6M 辆 + 有 AI 期权（非单一大客户骤失）。**但本轮重跑证据更强**：2025 已被 [BYD 反超为全球电动车第一](https://techcrunch.com/2026/01/02/tesla-annual-sales-decline-9-as-its-overtaken-by-byd-as-global-ev-leader/)（2.26M vs 1.64M、连续第二年下滑），创始客群结构性流失；**若美/欧份额继续下滑即升级为红线封顶** |
-| growth_engine_broken | 未触发 | 营收重新加速 +16%、毛利从低谷回升；但"下一代引擎"(Robotaxi/Optimus) 商业化≈0，二元性极大 |
+| accounting_fraud_suspicion | 未触发 | DOJ/SEC 就 FSD 营销欺诈展开刑事/民事调查，但仍处**信息收集阶段**，无正式起诉、无审计师辞任/非标意见、无财报重述——未达红线证据门槛。**这是最接近触发的一条**，若升级为正式指控即可能封顶 [中]。 |
+| core_customer_loss | 未触发 | 零售消费者业务高度分散，无核心大客户可"流失"；不适用 [强]。 |
+| growth_engine_broken | 未触发 | 2025 年首次年营收 -3% 一度逼近，但 Q1 2026 重回 +16% 增长、能源 FY2025 +27%、FSD 订阅 +51%——增长引擎放缓但未失效 [强]。 |
 
 ## 🏢 公司介绍 / 核心产品
-> **结构化优先** — 能用表格就用表格、要点先行；每条标证据级（强/中/弱/待核实）+ 来源链接。方法见 `references/company-profile.md`。本节为**描述性事实**；竞争壁垒能否持续的判断在第 7 节「护城河 / 产业链位置」。
+> **结构化优先** — 表格驱动；每条标证据级（强/中/弱/待核实）+ 来源链接。本节为**描述性事实**；竞争壁垒能否持续的判断在第 7 节「护城河 / 产业链位置」。
 
 ### 一句话画像 + 商业模式
-Tesla, Inc. 是一家美国**电动汽车 + 清洁能源**公司，同时从事自动驾驶技术研发与人形机器人；主要收入来自整车销售（一次性）、能源产品销售（一次性+订阅）与 FSD/服务订阅（经常性比例持续提升）。[Tesla 10-K 2024](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)（强）
+Tesla 是一家深度垂直整合的电动汽车与清洁能源公司，正从整车制造商向 **AI 自动驾驶 / 机器人 / 能源平台**转型，以 Model Y/3 为基石，以 FSD 订阅、Megapack 储能、Robotaxi 和 Optimus 为增长引擎 [强]。
+
+**商业模式**：硬件主导 + 软件/服务快速增长的混合模式。变现方式：(1) **汽车销售**（一次性，Q1 2026 占 72.5% 收入）——直销无经销商；(2) **FSD 自动驾驶订阅**（经常性，2026 年 2 月起转纯订阅 $99/月，Q1 2026 活跃 128 万、年化 ARR ~$5.46 亿）；(3) **Megapack/Powerwall 储能**（项目制，毛利率 28–40%）；(4) **服务与其他**（充电、保险、二手车、碳积分——经常性成分上升）；(5) **Robotaxi 按里程抽佣**（导入期，Austin 已商业运营）；(6) **Optimus 人形机器人**（尚无商业收入）。整体经常性收入占比在提升但仍 <20% [强]。碳积分 FY2025 收入 $1.99B（[政策敏感、同比 -28%](https://www.sec.gov/Archives/edgar/data/0001318605/000162828026003952/tsla-20251231.htm)）[强]。
 
 ### 业务分部与收入拆分
-| 分部 | 收入（Q1 2026） | 占比% | YoY | 毛利特征 |
+| 分部 | 收入 | 占比% | YoY | 毛利特征 |
 |---|---:|---:|---:|---|
-| 汽车（整车+积分+FSD） | ~$17.2B | ~77% | +13% | GM ~19.2%（净化一次性项后~17-18%，受降价/竞争压制） |
-| 能源与储能（Megapack/Powerwall） | ~$2.7B | ~12% | +67% | GM ~25-30%（高 margin 引擎，2026 指引压缩） |
-| 服务与其他（超充/维修/保险） | ~$2.5B | ~11% | +42% | GM 较低但快速上升 |
-| **合计** | **$22.39B** | **100%** | **+15.8%** | GAAP GM 21.1% |
+| 汽车（Automotive） | FY2025 $69.53B / Q1'26 $16.23B | FY25 73.3% / Q1'26 72.5% | FY25 **-9.8%** / Q1'26 **+16%** | Q1'26 含碳积分 21.1%、剔除 19.2%（vs Q4'25 17.9%），近 8 季最高；含 ~$4.8 亿一次性（关税退款+质保拨回）粉饰 [强] |
+| 能源发电与储存（Energy） | FY2025 $12.77B / Q1'26 $2.41B | FY25 13.5% / Q1'26 10.8% | FY25 **+26.6%** / Q1'26 **-12%** | Q1'26 毛利率 39.5%（含 ~$2.5 亿一次性关税收益），基准 ~28.7%；FY2025 部署 46.7 GWh（+49%），最高增速分部 [强/中] |
+| 服务与其他（Services & Other） | FY2025 $12.53B / Q1'26 $3.75B | FY25 13.2% / Q1'26 16.7% | FY25 **+19.0%** / Q1'26 **+42%** | Q1'26 毛利率 9.2%（偏低，被二手车/碰撞维修拖累）；增长引擎为 Supercharger/FSD/保险，最快增长分部 [强] |
 
-来源：[Electrek Q1 2026 结果](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-financial-results/)（强）、[TIKR](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative)（强）
+来源：[evwire Q1 2026 财报](https://evwire.com/p/tesla-tsla-q1-2026-earnings-results)（强）、[Yahoo FY2025 营收](https://finance.yahoo.com/news/tesla-revenue-slips-2025-energy-163645200.html)（强）、[bullfincher 分部历史](https://bullfincher.io/companies/tesla/revenue-by-segment)（强）。**FY2025 总收入 $94.83B（-3% YoY），为 Tesla 上市以来首次年度收入下滑** [强]。
 
 ### 核心产品 / 服务
 | 产品/服务 | 是什么 | 卖给谁 | 变现/定价 | 收入占比 | 生命周期阶段 |
 |---|---|---|---|---:|---|
-| Model Y / Model 3 | 中型 SUV / 轿车电动车 | 消费者 | 一次性整车售价（$35K-$60K） | ~65% | 成熟（主力走量） |
-| Cybertruck | 电动皮卡 | 美国消费者/商用 | 一次性（$80K+） | ~3-5% | 导入（良品率提升中） |
-| FSD（Full Self-Driving） | 监督级自动驾驶软件 | 车主 | 订阅 $99/月 or 一次性 $8K | ~5%（快速增长） | 导入（1.28M 订阅）|
-| Megapack | 大型电网储能系统 | 公用事业/企业 | 项目合同（$/kWh） | ~8% | 放量 |
-| Powerwall | 家用电池储能 | 消费者 | 一次性 + 安装服务 | ~3% | 放量 |
-| 超充网络 / NACS | 充电服务（含第三方品牌） | 车主（含非 Tesla） | 按度计费 | ~2% | 放量 |
-| Optimus（人形机器人） | 工厂/物流机器人（V3 开发中） | 企业（初期内部） | 尚无商业定价 | <1%（预研） | 导入前期 |
+| Model Y（Juniper 刷新版） | 中型 SUV，2025 全面刷新，续航升至 447 英里 | 全球 C 端 + B 端车队 | 整车直销 + FSD $99/月 | Model 3/Y 合占 Q1'26 交付 95.5%、汽车分部 ~75%+ | 成熟期（刷新后重新放量） |
+| Model 3（Highland 刷新版） | 紧凑型轿车，欧洲占比高 | 全球 C 端 | 整车直销 + FSD + 服务 | 与 Model Y 合并报告（全年交付 97%） | 成熟期 |
+| Cybertruck | 不锈钢全尺寸电动皮卡 | 北美 C 端 + 工程/农业 | 整车直销（高 ASP $80K–120K） | Q1'26 "Other" 16,130 辆（4.5%）；收入估 5–8% | 放量期（产能爬坡） |
+| Tesla Semi | 纯电动重卡，续航 ~500 英里 | 大型物流/食饮企业 B2B | 整车销售（估 $150K+） | 量极小，待核实 | 导入期 |
+| Megapack | 集装箱式电网级储能（~3.9 MWh/台） | 公用事业/IPP/工业 B2B | 按系统销售（项目制） | 能源分部主力（FY25 $12.77B 大部分） | 放量期（上海'25 投产、休斯顿'26 启动） |
+| Powerwall / 太阳能屋顶 | 住宅电池储能（13.5 kWh）+ 光伏 | 住宅业主 C 端 | 硬件销售 + 安装 | 能源分部次要，待核实 | 成熟期 |
+| FSD 订阅 | 完全自动驾驶软件（监督级，OTA 升级） | Tesla 车主 B/C 端 | 月订阅 $99/月（经常性） | 归入汽车/服务，ARR ~$5.46 亿（年化收入 ~2.4%） | 放量期（订阅 +51% YoY） |
+| Supercharger 网络 | 自有快充网络（8,182 站/77,682 接头） | Tesla + 第三方 EV C 端 | 按 kWh 计费 | 服务收入主驱动之一，独立占比待核实 | 放量期（NACS 成北美标准） |
+| Tesla Insurance | 实时驾驶行为定价车险（美国 ~12 州） | Tesla 车主 C 端 | 月保费（经常性） | 含于服务，待核实 | 放量期（覆盖州数快增） |
+| Cybercab Robotaxi | 无方向盘双座自动驾驶出租车 | 普通消费者 C 端（替代 Uber/Lyft） | 按里程/时间抽佣（平台模式） | 收入极小（导入期） | 导入期（Austin 已商业运营） |
+| Optimus 人形机器人 | 自研人形机器人，内部物料搬运 | 制造业 B2B（长期全行业） | 硬件销售 + 可能 RaaS | 尚无外部商业收入 | 导入期（2027 起对外） |
 
-来源：[Tesla 10-K 2024](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)（强）、[NotaTeslaApp Q1 2026](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap)（中）
+来源：[evwire Q1 2026](https://evwire.com/p/tesla-tsla-q1-2026-earnings-results)（强）、[FSD 订阅破 128 万](https://www.basenor.com/blogs/news/tesla-fsd-hits-1-28m-subscribers-in-q1-2026-record-growth)（强）、[Cybercab 4 月量产](https://www.basenor.com/blogs/news/tesla-cybercab-production-starts-april-2026-the-autonomous-era-begins)（中）、[Optimus/Model S/X 转产](https://carboncredits.com/tesla-shifts-from-evs-to-ai-musk-says-robots-will-be-80-of-company-value/)（中）。
 
 ### 客户
-主要客户为**消费者（C 端）**，无单一大客户，但高度集中于美国与中国两大市场（合计约占总交付 80%+）。能源/Megapack 以公用事业/企业（B 端）为主。
-> 主要客户 / 集中度；客户集中度的**扣分**见第 11 节「⚠️ 风险与利空」，此处只描述。
+主要客户为**全球消费者个人（C 端）** 和工商业主体（B 端），高度分散，无单一客户集中度风险。三类：(1) **汽车端（73% 收入）**——终端消费者直购为主，无经销商；大客户含租车公司（Hertz 曾批量采购后部分退订）、企业车队、政府采购。(2) **能源端（14% 收入）**——Megapack 面向公用事业/IPP/工业，单项目数百万至数千万美元但客户分散，无单客户超 10% 营收公开披露；Powerwall 面向住宅。(3) **服务端（13% 收入）**——Supercharger 以 Tesla 车主为核心（2023 后开放非 Tesla EV）、保险以车主为主，FSD 订阅达 128 万（12% 车主渗透率）。**地理集中度**：[美国 48.9% + 中国 22.1%（FY2025）合计 71%](https://metricshour.com/blog/tesla-revenue-by-country-how-exposed-is-tsla-to-china-and-europe/)，中国市场地缘敞口显著 [强]。
+> 客户集中度的**扣分**见第 11 节「⚠️ 风险与利空」（`customer_concentration`=1，主因地理而非单客户），此处只描述。
 
 ### 竞品分析
 | 对手 | 产品/定位 | 相对规模/市占 | 与本公司正面交锋点 |
 |---|---|---|---|
-| [BYD](https://www.byd.com) | 全系纯电/插混；汉、宋、海豹等 | 2025 全球 EV 第一（2.26M vs Tesla 1.64M）；中国 EV 市占 ~35% | 中国市场直接碾压，插混布局更广；汉 DM-i 价格低于 Model 3 |
-| [Waymo](https://waymo.com) | 全无人 Robotaxi（L4） | Austin 已部署 ~577 辆；Google 母公司背书 | 自动驾驶现实运营领先 Tesla ~20 倍（辆数） |
-| 华为 ADS（智界/问界） | 汽车智驾系统+品牌 | 中国智驾高端市占快速提升 | 中国市场品牌+技术双重挤压，问界 M9 等抢高端 |
-| 传统 OEM（GM Cruise/Ford BlueCruise/Stellantis） | 混合+电动 + ADAS | 美国各有 10-20% 市场份额 | 混合路线吸引部分观望客，ADAS 追赶 FSD 功能 |
-| 宁德时代（CATL） | 动力电池供应商 | Tesla 部分车型电池供应商 | 若 Tesla 电池自研缓慢，宁德时代议价权强 |
+| **BYD（比亚迪）** | 全球销量第一纯电+插混，中低到中高端，电池/半导体自研 | FY2025 全球 BEV ~226 万 vs Tesla ~164 万；全球纯电份额 ~17% vs ~9%；2025 总营收已超 Tesla | 中国正面竞争（Model 3/Y vs 汉/海豹/海鸥）、欧洲快速渗透（Tesla 欧洲'25 前 11 月 -40%）、储能亦有竞品；不入 Robotaxi/FSD 赛道 |
+| **GM（Chevy/Cadillac/GMC）** | 传统巨头转型 EV，Ultium 平台，美国品牌认知强 | 美国 EV 份额 ~13–15%（美国第二）；全球远小于 BYD/Tesla | 美国中型 SUV/皮卡（Model Y vs Equinox EV；Cybertruck vs Silverado EV）；依赖联邦补贴（已取消承压） |
+| **Waymo（Alphabet）** | Robotaxi 商业运营领导者，激光雷达+HD 地图（对立纯视觉） | FY2025 完成 1,400 万次全自动行程、收入 ~$2.86 亿；估值 ~$450 亿 | Robotaxi 直接竞争（Austin vs Austin）；技术路线之争（纯视觉 vs 多传感器融合） |
+| **Rivian** | 美国纯电皮卡/SUV 初创，R2/R3 剑指 Model Y 价格带 | 2025 交付 ~5.1 万辆，美国份额 ~2%，市值 ~$150 亿 | Model Y vs R2、Cybertruck vs R1T；与 Uber 合作 Robotaxi 中期竞争 |
+| **现代/起亚** | 韩系 IONIQ/EV 系列，美国第四大 EV 品牌，建 Metaplant Georgia | 美国 EV 份额 ~5%；2025 美国销量 ~9 万辆 | 中型 EV（Model Y vs IONIQ 5/EV6）；IONIQ 5 N vs Model 3 Performance |
+| **CATL（电池供应竞争）** | 全球最大第三方动力电池厂 | 全球动力电池份额 ~37%（2025）；Tesla 仍采购部分 LFP | Tesla 4680 自研内制化（目标 2026 全自供）以降低成本并减少对 CATL 依赖 |
 
-来源：[TechCrunch BYD 超越 Tesla](https://techcrunch.com/2026/01/02/tesla-annual-sales-decline-9-as-its-overtaken-by-byd-as-global-ev-leader/)（强）、[TechTimes Waymo vs Tesla](https://www.techtimes.com/articles/318160/20260610/tesla-robotaxi-trails-waymo-42-577-texasaustin-map-masks-20-car-fleet-until-fsd-v15-rewrite.htm)（中）
+来源：[BYD 夺全球 BEV 冠](https://electrek.co/2026/01/02/byd-crushes-tesla-all-electric-sales-for-2025-secures-global-bev-crown/)（强）、[美国 EV 份额](https://cleantechnica.com/2026/02/04/tesla-had-46-of-us-ev-market-in-2025-down-from-49-in-2024-gm-13-ford-7/)（强）、[Waymo vs Tesla](https://www.programming-helper.com/tech/waymo-tesla-robotaxi-race-autonomous-vehicle-market-2026)（中）、[BYD 产能对比](https://evboosters.com/ev-charging-news/tesla-vs-byd-a-battle-of-global-production-capacity/)（中）。
 
 ### 竞争力分析
-**强项（事实层）**：
-- **Supercharger/NACS 网络**：美国 52%+ 快充口、几乎全行业标准化（强证据，[EVCS](https://usevchargingstations.info/guides/nacs-transition/)）；非 Tesla 车接入后网络效应反增。
-- **FSD 真实里程数据规模**：[累计 10B+ 英里、29M/天](https://electrek.co/2026/05/03/tesla-fsd-10-billion-miles-no-magical-milestone-autonomy/)，训练数据规模领先主流 OEM（中证据；与 Waymo 比较有争议）。
-- **垂直整合**：自研芯片（Dojo/HW4）、电池研发、超充、整车设计一体；降本能力强（中证据）。
-- **品牌 & 直销**：免经销商、直营模式保护 NPS/利润率（中证据，但 2024-2026 品牌有流失）。
+**强项（事实层）**：① **超级充电网络壁垒**——全球 8,182 站/77,682 接头，行业最大自有快充网络，NACS 已成北美标准（Ford/GM/Hyundai/Rivian/BMW/Toyota 全采纳）[中]；② **垂直整合深度**——锂精炼→正极→4680 电芯→整车→销售→保险→充电全链自研，4680 已成最低成本内制电芯 [中]；③ **FSD 数据飞轮**——10.05 亿累计自动驾驶英里（42× Waymo）、128 万付费订阅，数据资产无对手匹敌 [中]；④ **直销 + 软件 OTA**——无经销商、迭代快 [强]；⑤ **美国品牌定位**——[美国 EV 份额 ~46–59%](https://cleantechnica.com/2026/02/04/tesla-had-46-of-us-ev-market-in-2025-down-from-49-in-2024-gm-13-ford-7/)、车主忠诚度高 [强]；⑥ **能源规模化**——上海+休斯顿 Megafactory 规划 90 GWh，高毛利且增速快 [强]。
 
-**弱项（事实层）**：
-- **产品线老化**：Model S/X 已 10 年、Model 3/Y 5-7 年、Cybertruck 良品率问题；刷新周期慢（中证据）。
-- **中国市场份额持续萎缩**：[4 月跌出前十（-53% MoM）](https://cnevpost.com/2026/05/13/automakers-share-china-nev-market-apr-2026/)，华为/BYD 双重夹击（强证据）。
-- **欧洲品牌流失**：[注册 -44% YoY](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-defeat/)，政治因素加速（中证据）。
-- **Robotaxi 现实部署落后 Waymo**：仅约 42 辆 vs Waymo 577 辆（中证据）。
-
-> 壁垒能否持续见第 7 节「护城河 / 产业链位置」。
+**弱项（事实层）**：① **全球份额被 BYD 超越**（BYD 2025 BEV 226 万 vs Tesla 164 万）、欧洲'25 前 11 月 -40% [强]；② **产品线集中**——Model 3/Y 占交付 97%，单车型依赖高 [强]；③ **自动驾驶商业化落后 Waymo**（后者已 1,400 万次行程有营收）[中]；④ **Musk 精力分散**（同领 SpaceX/xAI/X/DOGE）[中]；⑤ **关税与供应链**——部分车型仍依赖 CATL LFP、4680 国产化爬坡中 [中]；⑥ **FY2025 首次年营收下滑** -3% [强]。
+> 本节只列事实层强弱；壁垒**能否持续**见第 7 节「护城河 / 产业链位置」。
 
 ### 产业链位置
-Tesla 处于 EV **整车品牌商 + 自动驾驶平台**位置（中游偏下游），上游依赖电池（宁德时代/松下）、半导体（台积电/三星代工 Dojo 芯片）、锂矿（全球供应商）；下游直销给消费者+企业。超充网络赋予其部分基础设施话语权（上游化趋势）。能源/Megapack 业务将其延伸至电网侧（中游偏上）。与第 7 节「护城河 / 产业链位置」呼应（此处描述位置，那里判断壁垒能否持续）。（中证据，[Tesla 10-K 2024 供应链描述](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)）
+Tesla 在电动汽车价值链中占据**高度垂直整合的中下游整车+软件+能源一体化**位置 [强]：
+- **上游**：部分自产（4680 电芯、正极内制、Robstown 锂精炼），仍从 CATL/Panasonic 采购部分电芯；
+- **中游**：自有 Gigafactory 制造（Fremont/上海/柏林/Texas）+ 自研软件（FSD/Autopilot/OS/Dojo）；
+- **下游**：直销→交付→服务（Supercharger/保险/维修/OTA）→数据回流训练 FSD；
+- **能源链**：Megapack 制造→电网侧储能集成/运营，扮演 EPC 类角色；
+- **Robotaxi**：既是整车制造商（Cybercab）又是出行平台运营者（Tesla Network），近似 Uber+Tesla 合一。
+
+**议价权**：对消费者较强（直销无中间商）；对上游核心矿材（锂/镍/钴）仍有依赖，通过长期锁价+自建精炼减少敞口；对公用事业 Megapack 客户中等议价权（CATL/BYD 在争夺）[中]。
 
 ### 公司沿革与规模
-- **成立**：2003 年由 Martin Eberhard & Marc Tarpenning 创立；Elon Musk 2004 年加入并成为最大投资人，后出任 CEO。
-- **上市**：2010 年 6 月 NASDAQ IPO（TSLA），发行价 $17/股。
-- **关键转型**：2012 Model S 量产（高端电动车）→ 2017 Model 3 发布（平民化）→ 2020 FSD 订阅上线 → 2022 Megapack 放量 → 2023 NACS 成行业标准 → 2025 Robotaxi 试运营（Austin）。
-- **重大并购**：SolarCity（2016，$2.6B，整合光伏+储能）；无其他重大并购，主以有机成长为主。
-- **规模**：员工约 [12 万人（2024 年末裁员后）](https://electrek.co/2024/04/15/tesla-laid-off-more-than-10-of-its-global-workforce/)；全球工厂 5 座（Fremont/Gigafactory Nevada/TX/Berlin/上海）；FY2025 全球交付 1.636M 辆；FY2025 营收约 $97B（强证据，[Tesla IR](https://ir.tesla.com)）。
+**关键里程碑**：2003 创立 → 2008 Roadster 交付、Musk 任 CEO → 2010 NASDAQ IPO（$17/股）→ 2012 Model S → 2017 Model 3 大众化 + FSD 预购确认 → 2020 Model Y + 上海投产 + 纳入 S&P 500 → 2021 首次年度盈利（$5.52B）→ 2023 Cybertruck 量产 + FY 收入 $96.77B 历史新高 + Supercharger 开放 → 2024 交付 178.9 万（-1%）、价格战压毛利、Musk 转向 DOGE → **2025 FY 收入 $94.83B（-3%，首次年降）、交付 163.6 万（-8.6%）、BYD 超越成全球最大 BEV、能源 +27% 创新高、Robotaxi 软启动** → **2026（截至研究日）Q1 收入 $22.39B（+16%）、毛利率 21.1%（8 季最高）、Cybercab 量产+运营、FSD 转纯订阅、宣布 $25B+ 资本支出、入股 SpaceX $20 亿** [强/中]。
+
+**规模指标（2025 年底/2026 年初）**：员工 [100,883 人](https://sqmagazine.co.uk/how-many-people-work-at-tesla/)（+2.8% YoY）[中]；6 座 Gigafactory（Fremont/Austin/Reno/上海/柏林/Buffalo）+ 上海/休斯顿 Megafactory；汽车年产能 ~235 万辆；[股价 ~$400、市值 ~$1.50 万亿、流通股 ~37.6 亿](https://capital.com/en-int/market-updates/tesla-stock-forecast-03-06-2026)（中）；收入地理 [美国 $47.73B（48.9%）/ 中国 $20.96B（22.1%）/ 其他 $26.24B（27.7%）](https://metricshour.com/blog/tesla-revenue-by-country-how-exposed-is-tsla-to-china-and-europe/)（强）。
 
 ## 投资逻辑
-多头逻辑几乎全押在"自动驾驶 + 人形机器人"两个期权：可复用的 FSD 数据飞轮（[10B+ 累计英里、29M/天](https://electrek.co/2026/05/03/tesla-fsd-10-billion-miles-no-magical-milestone-autonomy/)）、Supercharger/NACS 充电标准、储能（Megapack）高增长。问题是：**今天的生意支撑不了今天的估值**——汽车在利润低谷、品牌在核心市场流失，而 Robotaxi/Optimus 的商业化要到 2027+ 才有意义。$1.53T 市值里约 $300+/股是纯期权溢价，安全边际几乎为零。
+**多头逻辑（why own）**：Tesla 是**两个故事的叠加**——(1) 一家正在企稳的好汽车+能源公司：Q1 2026 重回 +16% 增长、毛利率 21.1%（8 季最高）、能源 FY2025 +27%、FSD 订阅 +51% 至 128 万、Q1 短暂夺回纯电季度销冠 [强]；(2) 一个尚未变现的 **AI/Robotaxi/Optimus 期权**：TAM 跨 EV+自动驾驶+储能+人形机器人四条曲线、合计数万亿美元，Tesla 在其中两条（EV、储能）已是龙头，护城河多重（充电网络、数据飞轮、垂直整合）[中/弱]。
+
+**空头逻辑（why avoid now）**：当前 ~$1.50 万亿市值几乎**全部押在第二个故事上**，而管理层自己指引 [Robotaxi 2026 内不 material、2027 才放量](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap)、Optimus 2027 才对外销售 [强]。第一个故事的基本面在**结构性走弱**：2025 首次年营收负增长、欧洲 13 个月连降、中国零售 -45%、美国份额从 49%→46% [强]。叠加治理（$1 万亿薪酬 + $5.73 亿关联交易）与监管（四项 NHTSA + DOJ/SEC FSD 调查）双重 4 分惩罚 [强]。
+
+**净判断**：好公司（质量 65），但**市场正在重估增长持续性与治理可信度**、且现价已透支期权价值（买点 28）——惩罚把总分压到 23.6，**现价回避**。要么等期权变现（Cybercab/Optimus 见到收入），要么等估值 reset。
 
 ## 增长引擎 + 市场空间
-- **收入重新加速但底子虚**：Q1 2026 营收 [$22.39B（+15.8% YoY）](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative)，但是从 2025 低谷反弹——[FY2025 交付 1.636M（-8.6%）](https://teslanorth.com/2026/01/02/tesla-q4-2025-deliveries-418227-vehicles/)，仍低于 2024 峰值 1.79M。
-- **结构在变**：Services & Other [$3.75B（+42%）](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-financial-results/) 最快；储能是高margin 引擎但 [Q1 仅 8.8 GWh（-38% QoQ、不及预期）](https://www.ess-news.com/2026/04/23/elon-musk-says-teslas-energy-storage-business-very-strong-actual-forecast-for-2026-is-weak/)。
-- **FSD 渗透在走**：[订阅数 1.28M、车队渗透 14%](https://www.notateslaapp.com/news/4030/tesla-fsd-adoption-hits-14-as-subscriptions-soar-in-q1)（2 月起改为纯订阅）。
-- **TAM 巨大但渗透≈0**：Robotaxi（[ARK 估 2030 全球 $10T](https://www.ark-invest.com/articles/analyst-research/tesla-launched-its-robotaxi-now-what)）、Optimus、能源——但管理层明说 [Robotaxi 2026 收入"不重要"](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap)。→ revenue_growth_durability 2.5 / tam 3。
+**近期增长引擎（已变现）**：① **汽车复苏**——Q1 2026 +16% YoY 至 $16.23B，但交付 +6% 显著弱于生产 +13%，[产销缺口 5 万辆、库存天数 15→27 天](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-earnings-results/)，需求信号偏软 [强]；② **FSD 订阅飞轮**——128 万付费（+51% YoY），ARR ~$5.46 亿，2026 年 2 月转纯订阅扩大漏斗 [中]；③ **能源储能**——FY2025 +27% 至 $12.8B、~30% 毛利（最高分部），但 Q1 2026 部署 8.8 GWh（环比 -38%、同比 -15%，低于 12–14 GWh 预期，管理层称项目时点）[强]；④ **服务**——Q1 +42%（最快），Supercharger/保险/FSD 驱动 [强]。
 
-## 📊 最近财报重点（Q1 2026，4/22 报告）
-- **营收小超 + EPS beat**：[$22.39B vs ~$22.28B 预期](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-financial-results/)；non-GAAP EPS [$0.41 vs $0.36（+14% beat、YoY +52%）](https://www.investing.com/news/transcripts/earnings-call-transcript-tesla-beats-q1-2026-eps-forecasts-stock-rises-93CH-4631008)。
-- **交付不及 + 库存堆积**：[交付 358,023（差 ~7,600）](https://www.cnbc.com/2026/04/02/tesla-tsla-q1-2026-vehicle-delivery-production.html)，产量比交付多 50,363 辆（约 $2B 收入递延、Q2 margin 风险）。
-- **毛利被一次性项美化**：GAAP GM 21.1%、汽车 ex-credits 19.2%，但管理层承认 [~$230M 保修 + ~$250M 关税退款一次性、拒绝拆分](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-one-time-benefits-warranty-tariff-refunds-margins/)——净化后核心更弱。
-- **指引**：未给传统全年指引；[2026 capex >$25B、全年 FCF 约 -$8.5B](https://techcrunch.com/2026/04/22/tesla-just-increased-its-capex-to-25b-heres-where-the-money-is-going/)；现金 $44.7B。
-- **产品里程碑**：[Optimus V3 7 月底/8 月发布、放量"很慢"](https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/)；Robotaxi 仍 ~20-42 辆。
-- **财报后**：[股价 -3.6% 至 ~$373](https://fortune.com/2026/04/23/tesla-stock-price-earnings-call-outlook/)；全年 EPS 共识从 ~$1.89 砍到 ~$1.37。
+**高期权增长引擎（尚未变现，2027+）**：⑤ **Cybercab/Robotaxi**——2026 年 4 月量产、Austin 等 3 城已对公众收费，[Musk 指引 2026 不 material、2027 才显著](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap) [强]；⑥ **Optimus**——零外部收入，[Musk 称"史上最大产品"、2027 对外](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap) [强]。
+
+**市场空间（TAM）**：EV（[全球 EV 渗透率 ~19.8%、美国 BEV 仅 5.5%](https://recharged.com/articles/ev-sales-statistics-2026) [中]）+ 电网储能（[IEA 2030 需扩 35×](https://www.iea.org/energy-system/electricity/grid-scale-storage) [中]）+ Robotaxi（[$147B by 2033，但测算高度投机](https://www.nasdaq.com/articles/one-analyst-thinks-teslas-robotaxi-revenue-could-soar-250-billion-2035-here-are-3-things) [弱]）+ 人形机器人（[$38B by 2035 [弱]](https://www.adamasintel.com/tesla-could-capture-half-the-humanoid-robot-market-in-the-us-by-2027/)）。TAM 真实巨大、Tesla 在两条曲线领先，但**最大的两条曲线（Robotaxi/Optimus）当前几乎 pre-revenue**——`revenue_growth_durability`=3（复苏真实但中速、2025 暴露脆弱性）、`tam_penetration`=4（TAM 巨大、份额领先，但大曲线变现要 1–2 年）、`product_customer_momentum`=3（FSD/Robotaxi 催化真实，但交付 miss + 库存堆积 + 储能 GWh 下滑引入不确定）。2026 全年收入共识 [~$102–105B（隐含 ~8% 增速）](https://stockanalysis.com/stocks/tsla/forecast/) [中]。
+
+## 📊 最近财报重点
+**Q1 2026（截至 2026-03-31，4 月 22 日发布）质量上行、叙事承压**：
+- **营收 $22.387B（+15.8% YoY），beat 共识 ~$4.6 亿**；[毛利率 21.1%（+478bp YoY，5 季最高）](https://evwire.com/p/tesla-tsla-q1-2026-earnings-results)；调整后 EPS $0.41（+52% YoY，beat ~14%）[强]。
+- **盈利质量喜忧参半**：经营利润 $941M（+91% YoY，营业利润率 4.2%）；GAAP 净利仅 $477M（被 $10.3 亿 SBC + 比特币减值压制），non-GAAP $1.45B [强]。
+- **现金流**：[OCF $3.94B（+83%）、资本支出 $2.49B、FCF $1.44B（+117%）、现金及短投 $44.74B](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative)（+21% YoY）[强]。
+- **电话会震撼弹**：[全年资本支出指引上调 $5B 至"超 $25B"（前 $20B），CFO 确认 Q2–Q4 2026 FCF 转负，全年 FCF 预计 ~-$8.5B](https://www.foreignpolicyjournal.com/2026/04/24/tesla-tsla-earnings-call-reveals-25-billion-capex-plan-for-ai-optimus-robots-and-cybercab-as-stock-retreats/)，覆盖六工厂+AI 算力+半导体 Fab+Optimus [强]。
+- **红旗（财报质量）**：① [产销缺口 5 万辆、成品库存环比 +$20 亿至 $68.4 亿、库存天数 15→27 天](https://www.stocktitan.net/sec-filings/TSLA/10-q-tesla-inc-quarterly-earnings-report-7f5462f3d917.html)——需求弱于供给 [强]；② [碳积分环比 -30% 至 $380M](https://www.cnbc.com/2026/04/22/tesla-tsla-q1-2026-earnings-report.html)——结构性下滑 [强]；③ 毛利含 ~$4.8 亿一次性（关税退款+质保拨回），公司不单项披露 [中]；④ [SBC $1.03B（+80% YoY），未确认 CEO 奖励 $99.7 亿在前](https://www.stocktitan.net/sec-filings/TSLA/10-q-tesla-inc-quarterly-earnings-report-7f5462f3d917.html) [强]；⑤ [HW3 永久无缘无监督 FSD](https://www.shacknews.com/article/148805/tesla-tsla-q1-2026-earnings-call-transcript)，需以旧换新升级，贬损存量车队 [中]。
+- **财报后反应**：[盘后初涨 4% 后回吐，次日（4/23）收 -3.56%（$373.60）](https://www.tikr.com/blog/tesla-q1-2026-earnings-beat-so-why-did-the-stock-fall-3-56)，资本支出意外是回吐主因 [中]。
+- **综合（earnings-analyst 读数）**：当季在质量轴改善（利润率、经营杠杆），但远期叙事要求 $25B+ 的信任押在 Cybercab/Optimus/FSD 如期兑现——高方差赌注，市场只部分定价。对应 `product_customer_momentum`=3、`management_capital_allocation`=2、`accounting_quality` 惩罚=1、`growth_engine_broken` 红线=未触发。
 
 ## 护城河 / 产业链位置
-- **真护城河**：[Supercharger/NACS 占美国 52% 快充口、几乎全行业采用](https://usevchargingstations.info/guides/nacs-transition/)——基础设施壁垒，越多非 Tesla 车加入越强；FSD 真实数据规模领先。
-- **在被侵蚀**：实景 Robotaxi 运营 [Waymo 远超（TX ~577 vs Tesla ~42 辆）](https://www.techtimes.com/articles/318160/20260610/tesla-robotaxi-trails-waymo-42-577-texasaustin-map-masks-20-car-fleet-until-fsd-v15-rewrite.htm)；中国端 [BYD + 华为 ADS 从品牌和技术两头夹](https://www.teslaacessories.com/blogs/news/fsd-vs-competitors-can-tesla-outperform-byd-and-huawei-in-autonomous-driving-technology-)。→ moat 3。
+**护城河结构（moat-economics-analyst 判断）**：Tesla 是一组**强度不均**的多层壁垒，软件/服务护城河在拓宽、汽车硬件护城河在收窄。
+- **硬护城河（结构性、难复制）**：① **Supercharger 网络**——[~79,900 接头、NACS 成北美标准、30–40% 毛利、$20B 长期收入潜力](https://www.teslarati.com/tesla-tsla-20b-revenue-access-supercharger-nacs-deal-dan-ives/)（弱/中）；② **数据飞轮**——[10.05 亿 FSD 英里、42× Waymo、128 万付费](https://www.notateslaapp.com/news/4042/tesla-hits-546-million-in-annual-recurring-revenue-from-fsd-subscriptions)（中）；③ **垂直整合**——[4680 干电极成最低成本电芯、单车 COGS 一度 <$35K](https://www.nextbigfuture.com/2026/03/tesla-making-lower-cost-batteries-and-cars-late-in-2026-and-in-2027.html)（中）。
+- **高质量毛利池**：[能源 39.5% 毛利](https://www.teslaacessories.com/blogs/news/tesla-energy-q1-2026-update-megapack-deployments-surge-to-record-highs-as-utility-scale-storage-transforms-the-grid)（中，含一次性）+ 服务 +42% 增长，部分对冲汽车周期压力。
+- **护城河威胁**：① [BYD 垂直整合+规模（2024 交付 4.27M vs Tesla 1.79M）+ 电池专利 1,117 vs 97](https://driveauthority.com/tesla-vs-byd-the-real-battle-for-ev-dominance/)（中）；② [美国份额 49%→46%、GM 近翻倍至 13.2%](https://cleantechnica.com/2026/02/04/tesla-had-46-of-us-ev-market-in-2025-down-from-49-in-2024-gm-13-ford-7/)（强）；③ [$25B+ 资本支出、Q2–Q4 FCF 转负](https://news.alphastreet.com/tesla-tsla-posts-margin-rebound-in-q1-2026-but-25b-capex-surge-raises-stakes/)——护城河投资周期尚未证明（中）。
+- **单位经济性/盈利路径**：[剔除碳积分汽车毛利 19.2%（vs Q1'25 12.5%）](https://www.sec.gov/Archives/edgar/data/0001318605/000162828026026673/tsla-20260331.htm)（强）大幅恢复，但约 $4.8 亿是一次性；FCF Q1 转正但全年转负。**净判断**：`moat_chain_position`=4（强但非不可破——硬件护城河收窄、软件护城河拓宽）、`unit_economics_profit_path`=3（恢复中但杠杆于一次性项 + 重资本支出周期）、`competition_disruption` 惩罚=1（真实但未结构性致命，因美国地位+定价溢价仍在）。
 
 ## 👤 管理层 / 领导力
-> **定性，不打分**——从"人"的维度判发展潜力。四维度各一小段 + 一句净判断；每条标证据级（强/中/弱/待核实）并给来源链接。方法见 `references/management-analysis.md`。
+> **定性，不打分**——从"人"的维度判发展潜力。每条标证据级并给来源链接。
 
 ### 创始人 / CEO 背景与往绩
-Elon Musk 是 Tesla 的联合创始人（2004 年加入、后成最大股东兼 CEO），任期超 20 年，是典型的创始人主导（founder-led）公司——**强**。履历：PayPal 联合创始人（2002 年以 $1.5B 出售 eBay）；SpaceX CEO（迄今）；xAI、X（Twitter）、Boring Company、Neuralink 均持有或主导。在 Tesla 任内：主导量产 Model S/3/X/Y，推动 Supercharger 网络全行业标准化（NACS），启动 Dojo 超算与 FSD 自研；任内股价从 IPO ~$17 到 2024 峰值逾 $400——**过往在 Tesla 本身有确实的执行成绩，但跨公司分心是显著风险**（见第四维度）。→ 创始人主导加分；过往履历强证据。
-
-来源：[Tesla 10-K 2023 管理层履历](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K)（强）、[Harvard Law 公司治理评述](https://corpgov.law.harvard.edu/)（强）。
+Elon Musk 自 [2008 年 10 月任 CEO、2004 年 4 月入董事会](https://ir.tesla.com/corporate/elon-musk)，18 年不间断任期 [强]。长弧产品押注（Model 3、能源、FSD 平台）的往绩非凡，但被**系统性的时间表跳票**所拖累：[L5 自动驾驶承诺 2019、百万 Robotaxi 承诺 2020、无监督 FSD 承诺 2025 年底，现指引"约 Q4 2026"，电话会原话"我只是在猜"](https://en.wikipedia.org/wiki/List_of_predictions_for_autonomous_Tesla_vehicles_by_Elon_Musk) [强]。
 
 ### 愿景与战略执行力（said-vs-done）
-长期愿景清晰（"加速全球向可持续能源转型"+ Robotaxi + Optimus）且方向稳定；问题在**承诺兑现率**——中。过去 3 年公开承诺 vs 实际兑现：
-
-| 承诺 | 给出时间 | 实际结果 |
-|---|---|---|
-| Robotaxi 2020 年大规模上路 | 2019 | 至今（2026-06）仅 Austin ~42 辆试运营 |
-| Cybertruck 2021 年底量产 | 2019 | 实际 2023 年末；良品率受损初期盈利低 |
-| FSD 完全自动驾驶"明年" | 连续多年 | 尚在监督模式（Level 2+）；NHTSA 工程分析中 |
-| Semi 2019 年交付 | 2017 | 2022 年末开始小批量 |
-
-战略连贯性尚可（能源 + 自动驾驶两条线从未放弃），但时间线反复跳票是体质——**中证据**，削弱执行力信心，压制`management_capital_allocation`评分。
+愿景宏大且兑现过几次（量产化 Model 3、能源做到最高毛利分部），但**最重要的增长论点 FSD/Robotaxi 已跳票 7+ 年**：[Austin Robotaxi 2025 年 6 月启动时仅 ~36 辆且仍有安全员](https://insideevs.com/news/785220/tesla-robotaxi-austin-no-safety-monitor/)，与"车内无人"承诺相悖 [中]；[HW3 被确认永久无法实现无监督 FSD](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap)，逆转了对老车主的多年隐性承诺 [强]。Q1 2026 把资本支出从 $20B 上调至 $25B 并披露 $2B SpaceX 投资 [强]。
 
 ### 利益绑定（skin in the game）
-- **持股**：Musk 持有约 13% Tesla 股权（2026 DEF 14A；在 xAI/X 持股稀释后仍为第一大股东）——**强**，与股东利益深度绑定。
-- **薪酬结构**：2018 年 $56B 期权包（全无固定薪酬）按 12 个市值/运营里程碑分批解锁，设计上与**长期**里程碑挂钩——理念正确。但2024 年股东大会经法院裁决后仍批准该薪酬（[CNBC 报道](https://www.cnbc.com/2025/11/06/tesla-shareholders-musk-pay.html)），且 2025 年再获 $1T 市值里程碑的 424M 期权包，数额超大，被公司治理机构普遍批评缺乏独立性——**governance 惩罚联动**（强证据）。
-- **关联交易**：Musk 多次在 Tesla 与其个人公司之间进行资源调配（Dojo 算力、SpaceX 采购 Tesla 能源产品等），透明度争议存在——**中证据**，构成`governance`扣分依据之一。
-- **董事会构成**：独立董事多为 Musk 亲属/长期关联方（Kimbal Musk 为兄弟，多位任职超 10 年），覆盖法院裁决仍批准薪酬——董事会实质俘获是 `governance` 打 4 分（最高惩罚之一）的核心依据。
-
-来源：[2026 DEF 14A](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=DEF+14A)（强）、[Harvard Law / 公司治理研究所点名](https://corpgov.law.harvard.edu/)（强）。
+Musk 持股 [~15.3–16%](https://capital.com/en-int/analysis/tesla-shareholder-who-owns-the-most-tsla-stock)（全部行权后可至 ~25%），利益绑定深 [强]——这是真实的锚。但 2025 年 [$1 万亿里程碑薪酬方案（4.237 亿股，ISS/Glass Lewis 均反对，75%+ 通过）](https://www.cnbc.com/2025/11/06/tesla-shareholders-musk-pay.html) 在他公开威胁离职背景下通过，绑定与勒索的边界模糊 [强]。
 
 ### 团队稳定性 / 关键人物风险
-**关键人物风险：极高**——这是整份管理层分析最重要的结论。Tesla 几乎完全系于 Musk 一人：战略、产品、品牌、融资叙事均由他主导；无公认的 COO/二号人物。
-
-- **高管流失（深且广）**：2024–2026 已知离职 9+ 位，横跨电池/工程/Optimus/销售/运营——Drew Baglino（电池/工程 SVP，18 年）、Rebecca Tinucci（超充，整组）、Martin Viecha（IR VP）于 2024/4；Vineet Mehta（电池高管）2025/5；Milan Kovac（Optimus 负责人）2025/6；Omead Afshar（北美/欧洲运营主管）、Troy Jones（北美销售 VP，15 年）2025/7 等——**中证据**（[Benzinga 高管离职追踪](https://www.benzinga.com/markets/tech/25/07/46432860/tesla-leaders-take-the-exit-lane-where-have-all-the-execs-gone)、[CNBC](https://www.cnbc.com/2024/04/15/tesla-execs-drew-baglino-and-rohan-patel-depart-amid-steep-layoffs.html)），机构知识被掏空、信号偏负面。
-- **分心风险**：Musk 同时担任 SpaceX CEO、xAI CEO、X 董事长、Boring Company 与 Neuralink 负责人，2025 年进入美国政府效率部门（DOGE）——公开信息显示其注意力严重分散（**中证据**）。若 Q3 披露 Tesla 投入 <50% 工作时间，$56B 薪酬包的人力资本理由崩塌，见报告风险章节 kill-switch 第 3 条。
-- **接班深度**：无明确接班人计划，文化高度个人化。Glassdoor 员工评分近年略下滑（弱证据，仅参考）。
-
-→ 关键人物依赖极高，Musk 若大幅减少投入 Tesla，将触发 `growth_engine_broken` 风险输入，综合代理需关注。
+关键人物风险**极端**——战略/路线图/投资论点单点依赖 Musk 一人，且他同时领导 SpaceX/xAI/X/Neuralink/Boring/DOGE [强]。[2024 年 4 月高管出走潮（18 年老将 SVP Baglino + 3 位 VP）是 Tesla 史上最大资深流失](https://www.bloomberg.com/news/articles/2024-04-15/tesla-executive-baglino-leaves-as-musk-loses-another-top-deputy) [强]；CFO Taneja 自 2023 年 8 月稳定 [中]。[Tesla-SpaceX 合并讨论活跃（Wedbush 估 80% 概率）](https://www.cnbc.com/2026/05/26/spacex-tesla-merger-chatter-reignites-as-musk-rocket-company-nears-ipo.html)将是 Musk 第四笔十亿级自我交易，治理风险在升级 [中]。
 
 ### 对发展潜力的净判断
-**管理层整体是发展潜力的「有条件加分项 / 高风险项」**：
-
-- **加分**：创始人深度绑定（持股 ~13%）+ 长期愿景稳定 + 过往在 Tesla 本身有实质执行成绩（量产 + 超充网络 + FSD 数据规模）。
-- **扣分**：承诺兑现率差（Robotaxi/FSD 反复跳票）+ 董事会实质俘获（`governance` 4 分）+ 跨公司分心极严重（关键人物风险高）+ 薪酬结构争议大。
-- **联动键**：`governance` 惩罚已按 4 分记入评分卡（董事会俘获 + 薪酬批准为强证据核心依据）；`management_capital_allocation` 评为 2 分（历史资本配置有成果但近期 capex 超 $25B 而 FCF ≈ -$8.5B，且分心削弱前景）；**诚信红线未触发**（无 SEC 立案、无造假强证据）；Musk 重大减少 Tesla 投入 → `growth_engine_broken` 风险输入（尚未发生，列 kill-switch 第 3 条）。
-- **结论框影响**：关键人物风险使得中期信心有顶板——即便 Robotaxi/Optimus 叙事兑现，执行能力也高度取决于 Musk 是否真的专注 Tesla。这是"高潜力但高依赖"的双刃结构，信心等级定为「中高」而非「高」。
+管理层**轻度净负面**：Musk 的愿景与持股是真实锚点，但治理质量、精力分散与连环跳票实质拖累评估。本判断**联动**了 `management_capital_allocation`=2（resource diversion + 自我交易拉低资本配置纪律，management-analyst 与 earnings-analyst 同给 2）与 `governance` 惩罚=4（risk-analyst 强证据：$6.82 亿主席薪酬 + $5.73 亿关联交易 + $2B xAI→SpaceX 转换，证据强于 management-analyst 的 1，由 judge-synthesizer 择优取 4）；诚信红线 `accounting_fraud_suspicion` 经评估**未触发**（DOJ/SEC FSD 调查仍信息收集阶段）。结论框信心"中高"已反映这一拖累。
 
 ## 单位经济性 / 盈利路径
-- 汽车 ex-credits GM 19.2%（含一次性，真实可能 17-18%）；储能 GM 高（[2025 全年 29.8%](https://www.energy-storage.news/tesla-energy-storage-deployments-jumped-in-crucial-ai-transformation-year-company-expects-margin-compression-in-2026/)，2026 指引压缩）。
-- **盈利路径远**：经营利润率仅 4.2%，[2026 FCF 约 -$8.5B](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative)；[$2.76B 监管积分（近 100% 毛利）面临立法取消威胁](https://www.notateslaapp.com/news/2885/tesla-to-face-billions-in-lost-profit-as-big-beautiful-bill-kills-ev-credits)。→ unit_economics 2.5。
+- **毛利**：Q1 2026 总毛利率 21.1%（+478bp YoY）；[剔除碳积分汽车毛利 19.2%（vs Q1'25 12.5%、Q4'25 17.9%）](https://www.sec.gov/Archives/edgar/data/0001318605/000162828026026673/tsla-20260331.htm)（强）——真实恢复，但约 $4.8 亿是一次性（关税退款+质保拨回），剔除后经常性 ~17–18% [中]。
+- **经营杠杆**：经营利润 $941M、营业利润率 4.2%（+214bp YoY）但环比 Q4'25 的 5.7% 下滑；R&D +38%、SG&A +47%，opex 增速快于收入 [强]。
+- **FCF/盈利路径**：Q1 FCF +$1.44B（+117%），但 [CFO 指引 Q2–Q4 转负、全年 ~-$8.5B](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative)（强），因 $25B+ 资本支出（~3× 2025 的 $8.5B）。
+- **SBC 拖累**：[Q1 SBC $1.03B（+80% YoY），$9.97B 未确认 CEO 奖励在前](https://www.stocktitan.net/sec-filings/TSLA/10-q-tesla-inc-quarterly-earnings-report-7f5462f3d917.html)（强）——多年 GAAP EPS 逆风。
+- **净判断**：`unit_economics_profit_path`=3——毛利健康且恢复、$44.7B 现金充裕，但杠杆于一次性项 + 重资本支出周期使全年自我造血转负，盈利路径清晰但"投资周期回报尚未证明"。
 
 ## 估值与买点
-- **极贵**：[前瞻 P/E ~188-208x、P/S 15.8x、EV/EBITDA 136x、PEG 4.12、净利率 3.95%](https://stockanalysis.com/stocks/tsla/statistics/)；[市值超过其余所有车企总和](https://cleantechnica.com/2026/02/19/tesla-market-cap-more-than-market-cap-of-toyota-byd-gm-ford-hyundai-kia-mercedes-benz-stellantis-geely-ferrari-bmw-volkswagen-group-honda-nissan-renault-xpeng-and-nio-combined/)。
-- **买点贵到没缓冲**：现价 ~$406 ≈ [47 位分析师均价目标 $419.94（+2.3%）](https://stockanalysis.com/stocks/tsla/forecast/)，目标价分歧极大（$25–$600）。反向读：现价隐含 Robotaxi + Optimus **同时**大规模成功。→ valuation/entry 各 1。
+- **现价/市值**：[~$396–400（2026-06-21）、市值 ~$1.50 万亿、净现金 $28.85B、EV ~$1,471B](https://stockanalysis.com/stocks/tsla/statistics/)（强）。[Live MCP：收盘 $396.38、52 周区间 $288.77–$498.83、YTD -11.86%、年化 IV 41.4%](#)（强，IBKR contract 76792991）。
+- **估值倍数（全面扩张）**：[TTM P/S 15.3×、前瞻 P/S（2026E $105B）~14.3×、EV/EBITDA 133×、前瞻 P/E ~194×、PEG ~8×](https://stockanalysis.com/stocks/tsla/statistics/)（强）；[Rule-of-40 仅 ~12（增速 8% + 营业利润率 4.2%）](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative)，远低于 40 健康门槛（中）。
+- **历史/同业对比**：[历史 2022 年同等更高增速（51%）时 P/S 仅 4.77×](https://companiesmarketcap.com/tesla/ps-ratio/)，今天增速 8% 却给 15.3×（中）；[纯汽车同业 BYD ~1×、Rivian ~4×](https://247wallst.com/investing/2026/03/27/tesla-vs-byd-the-better-ev-stock-for-2026/)，溢价全来自 AI/Robotaxi 期权（中）。
+- **反向 DCF 直觉**：[12% 折现 + 2.5% 终值增速下，须 15 年内 FCF CAGR ~38–40% 才能桥接当前 EV](https://www.tradingkey.com/analysis/stocks/us-stocks/261732341-tesla-2026-stock-analysis-ai-robotaxi-valuation-tradingkey)（弱）——完全依赖 Robotaxi+Optimus 在 10–15 年产生 $100B+ FCF。
+- **共识/目标价**：[27 位分析师"持有"、均值目标 ~$395–420（≈ 现价，几无上行）](https://stockanalysis.com/stocks/tsla/ratings/)，区间 [$25（GLJ）至 $600+（Wedbush）](https://www.benzinga.com/quote/TSLA/analyst-ratings)——分歧极大（中）。
+- **净判断**：`valuation_growth_match`=1（增速 8% 给 P/S 15×，纯汽车赛道无同业支撑，严重不匹配，但 Robotaxi 期权价值暂不封顶至 0）；`entry_expectations`=2（距高点 ~20% 回撤给了一点再定价空间，但远期假设仍极激进、SpaceX 并购传言添不确定）；`liquidity_bubble` 惩罚=3（流动性极好但估值泡沫化、高利率敏感）。
+
+### 市场在重估什么 / 基本面 vs 股价背离
+> **必填子块**（"好公司 ≠ 当前价位的好股票"）。
+
+**① 现价已 price-in 的隐含假设**：P/S 15.3×、PEG ~8×、反向 DCF 隐含 38–40% FCF CAGR——现价隐含 Robotaxi+Optimus **大规模商业化成功且如期**，把 Tesla 重估为 AI/机器人平台而非汽车公司 [强/弱]。
+
+**② 基本面动能 vs 股价动能是否背离**：当季 Q1 2026 **beat（EPS +52%、毛利率 8 季最高）但股价次日 -3.56%、YTD -11.86%、距 52 周高 $498 回撤 ~20% 后震荡**——典型"利好出尽 + 远期预期被下修"的负向背离 [中]。期权市场中性偏谨慎：[ATM IV ~40–41.7%、IV Rank ~32–38%（非恐慌）、put/call OI ~0.9（略高于均值 0.8）、$400 call wall 压制](https://flashalpha.com/stock/tsla)（中）。
+
+**③ 市场在边际上重估什么**：不是当季业绩，而是 **(a) 增长持续性**——2025 首次年降 + 欧洲 13 月连降 + 中国零售 -45% 让市场质疑汽车主业能否撑到期权变现；**(b) 治理可信度**——$1 万亿薪酬 + $2B xAI→SpaceX 转换 + 合并传言让市场给治理折价；**(c) 自由现金流**——$25B+ 资本支出使全年 FCF 转负，"投资周期回报"被打问号 [强]。把这三项结构性利空当**再定价催化剂**读。
+
+**④ 背离是否合理、何时收敛**：**合理**——完美预期已透支，而支撑预期的两大支柱（增长持续性、治理）正被削弱。收敛需要：Cybercab/Optimus 见到可见收入（2027 才指引 material）、或汽车主业在欧洲/中国止跌、或治理事件落地（DOJ/SEC 调查结果、合并投票）——均列入第 12 节「结论复述 + 下一步要核实 + 催化/日历」。**护栏**：价格/期权属中/弱证据，此处用于解释背离、不追涨杀跌；正向看，若错杀（基本面未坏而过度悲观）则买点变好，当前判断是"完美透支 → 买点变差"。
 
 ## ⚠️ 风险与利空
 ### 结构性风险
-- **创始客群流失（#1）**：[欧洲 1 月注册 -44% YoY、连跌三年](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-decline/)；[美国份额 8 年新低、Musk 政治引发抵制](https://www.usnews.com/news/business/articles/2026-04-02/tesla-sales-rise-after-brutal-year-of-musk-boycotts-but-still-fall-short-of-expectations)；[中国 4 月跌出前十（-53% MoM）](https://cnevpost.com/2026/05/13/automakers-share-china-nev-market-apr-2026/)。
-- **监管/自动驾驶**：[NHTSA 对 320 万辆 FSD 升级到工程分析（recall 前一步）](https://www.insurancejournal.com/news/national/2026/03/20/862650.htm)；[Robotaxi 17 起事故、约人类 4 倍](https://www.cbsnews.com/news/tesla-robotaxi-austin-14-crashes-nhtsa/)。
-- **监管积分**：[Q1 $380M（-36% YoY），2027 可能归零](https://carboncredits.com/tesla-q1-2026-hits-22-38b-revenue-but-do-weak-deliveries-and-falling-credits-expose-a-fragile-growth/)。
+- **治理（governance=4，扣 8 分）**：[董事会独立性被特拉华法院判定"严重瑕疵"](https://www.thecorporategovernanceinstitute.com/insights/news-analysis/teslas-governance-nightmare/)（中）；[主席 Denholm 自 2014 累计 $6.82 亿薪酬、董事会含 Musk 之弟 Kimbal、分类董事会无视多数股东票](https://www.sec.gov/Archives/edgar/data/0001318605/000121465925015361/o1027253px14a6g.htm)（强）；[$5.73 亿关联交易网络（xAI $430.1M Megapack + SpaceX $143.3M）+ $2B xAI 投资未经再批准转 SpaceX](https://electrek.co/2026/05/01/tesla-tsla-web-transactions-musk-companies-spacex-xai-10ka-2025/)（强）；[最高 $145 亿未决诉讼](https://electrek.co/2026/04/16/tesla-facing-up-to-14-billion-lawsuits-deep-dive/)（中）。
+- **监管/地缘（regulation_geopolitics=4，扣 8 分）**：[NHTSA FSD 调查涉 290 万辆、6 起伤人事故](https://mlq.ai/news/nhtsa-launches-federal-probe-into-teslas-full-self-driving-for-traffic-violations/)（强）+ [门把手调查](https://finance.yahoo.com/news/tesla-faces-investigation-over-door-140001111.html)（中）；[DOJ 刑事 + SEC 民事 FSD 营销欺诈调查](https://automotive-transportation.news-articles.net/content/2026/05/05/tesla-faces-federal-probes-over-potential-fsd-fraud.html)（中）；[$7,500 美国 EV 税收抵免 2025 年 7 月取消](https://www.investing.com/news/stock-market-news/teslas-firstquarter-deliveries-miss-estimates-as-tax-credit-expiry-weighs-4595678)（强）；[欧洲 1 月 -17%（13 个月连降）](https://www.cnbc.com/2026/02/24/tesla-car-sales-elon-musk-europe-autos-trump-evs.html)（中）+ [中国零售 -45%](https://electrek.co/2026/02/12/tesla-tsla-sales-in-china-crash-45-to-lowest-level-in-over-three-years/)（中）；[台海冲突情景或致芯片断供、营收 -25%](https://seekingalpha.com/article/4773550-tesla-will-survive-a-trade-war-but-a-taiwan-conflict-would-be-perilous)（弱，尾部）。
+- **竞争（competition_disruption=1，扣 2 分）**：[BYD 全球 BEV 超越 + 电池专利 1,117 vs 97](https://driveauthority.com/tesla-vs-byd-the-real-battle-for-ev-dominance/)（中）+ [美国份额 49%→46%](https://cleantechnica.com/2026/02/04/tesla-had-46-of-us-ev-market-in-2025-down-from-49-in-2024-gm-13-ford-7/)（强）——加剧但未结构性致命。
+- **客户集中（customer_concentration=1，扣 2 分）**：[无单一客户达营收门槛，主要是地理集中（美中合计 71%）](https://www.sec.gov/Archives/edgar/data/0001318605/000162828026026673/tsla-20260331.htm)（强）。
+- **会计质量（accounting_quality=1，扣 2 分）**：现金流与利润大体匹配，但 [Q1 毛利含 ~$4.8 亿一次性且不单项披露](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-one-time-benefits-warranty-tariff-refunds-margins/)（中）+ [SBC 激增 $1.03B](https://www.stocktitan.net/sec-filings/TSLA/10-q-tesla-inc-quarterly-earnings-report-7f5462f3d917.html)（强）。
 
 ### 资金面（解禁/增发/内部人卖出/降评级）
-- **稀释**：[2018 年 304M 股奖励已 S-8 注册](https://www.sec.gov/Archives/edgar/data/1318605/000162828026026551/tsla-20260422.htm)，但**锁定至约 2033**；[2025 年 $1T 奖励 424M 股期权](https://www.cnbc.com/2025/11/06/tesla-shareholders-musk-pay.html)按 7.5-10 年里程碑解锁——近期流通盘稀释**低**（dilution 1），主要拖累是 $9.97B SBC 费用入表。
-- **内部人**：[董事会成员持续 10b5-1 减持](https://finance.yahoo.com/news/tesla-insider-sales-increase-ahead-233118428.html)（Denholm ~$117M、Kimbal ~$31M、Wilson-Thompson ~$10.6M）；Musk 无公开市场卖出。→ lockup_insider_supply 2。
-- **评级**：[共识"持有"（47 家：18 强买/18 持有/6 卖）](https://stockanalysis.com/stocks/tsla/ratings/)，[JPM 6/5 从 $145 大幅上调至 $475](https://www.gurufocus.com/news/8903458/jpmorgan-upgrades-tesla-tsla-outlook-after-analyst-change)（深空头投降），[GLJ 维持 $25 极空](https://stockanalysis.com/stocks/tsla/ratings/)。
+- **稀释（dilution_financing=2，扣 4 分）**：[SBC Q1 飙至 $1.09B（年化 ~$44 亿）、无回购对冲、$0 回购 vs $44.7B 现金](https://www.sec.gov/Archives/edgar/data/0001318605/000162828026026673/tsla-20260331.htm)（强）；[2025 CEO 奖励 4.237 亿股（占股本 ~12%）10 年归属](https://www.sec.gov/Archives/edgar/data/0001318605/000110465925108507/tm2530590d1_ex10-2.htm)（强）为多年稀释悬顶；但 [无 S-3/ATM/shelf 增发](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=S-3&dateb=&owner=include&count=40)（待核实），无被动稀释。
+- **内部人/解禁（lockup_insider_supply=1，扣 2 分）**：[Musk 2026 年 6 月行权 3.04 亿份期权但零公开市场卖出，锁定至 2028 年 1 月 + 5 年限售至 2033](https://www.stocktitan.net/sec-filings/TSLA/form-4-tesla-inc-insider-trading-activity-7416f9cbe52a.html)（强）；[董事级 12 个月共减持 ~$1.64 亿、多为例行/缴税](https://www.marketbeat.com/stocks/NASDAQ/TSLA/insider-trades/)（中）。
+- **机构/评级**：[机构持股 66.2%、12 个月净流入 +$56 亿（买家 3,427 vs 卖家 2,224）](https://www.marketbeat.com/stocks/NASDAQ/TSLA/institutional-ownership/)（中）——净买入；[共识"持有"、JPMorgan 6/5 上调目标至 $475](https://stockanalysis.com/stocks/tsla/ratings/)（中），但 [JPMorgan 另有 $145 极熊目标](https://electrek.co/2026/04/08/tesla-jpmorgan-145-price-target-60-percent-downside/)（中）。
 
-### 期权市场怎么看（中证据）
-[30 天 IV ~48%、IV 百分位仅 ~33-38（不贵）](https://www.alphaquery.com/stock/TSLA/volatility-option-statistics/30-day/iv-mean)、[P/C 0.64（偏多）](https://fintel.io/sopt/us/tsla)。期权没在恐慌定价，Q2 财报前 straddle 不算贵。**skew 与财报隐含跳空待核实**（查 optioncharts.io/options/TSLA/volatility-skew、Market Chameleon 财报页）。
+### 期权市场怎么看
+[ATM IV ~40–41.7%、IV Rank ~32–38%（中段，非恐慌）、20 日 HV ~46–48%（HV > IV，IV 未被吹高）](https://flashalpha.com/stock/tsla)（中）；[put/call OI ~0.9（略高于 52 周均值 0.8，温和对冲）](https://www.barchart.com/stocks/quotes/TSLA/put-call-ratios)（中）；[gamma 正区间（dealer 多 gamma、价格被抑制），$400 call wall 阻力、$390–395 put wall 支撑、gamma flip $394](https://flashalpha.com/stock/tsla)（中）——被钉在 $400 call wall 下方。[财报前仅隐含 ~5% 波动、实际资本支出冲击超出隐含区间](https://www.insiderfinance.io/news/tesla-q1-2026-earnings-margins-and-inventory-risk)（弱）——期权市场系统性低估执行风险。
 
 ### 下行情景
-若 Robotaxi/Cybercab 监管/放量低于预期 + 监管积分归零 + 欧洲结构性流失，市值向"汽车 only"回归——多家估值框架指向 [$100-150（约 -63%~-75%）甚至更低](https://www.tradingkey.com/analysis/stocks/us-stocks/261732341-tesla-2026-stock-analysis-ai-robotaxi-valuation-tradingkey)。
+若 Cybercab/Optimus 2027 仍不放量、汽车主业欧洲/中国持续失血、$25B 资本支出回报落空，则估值锚从"AI 平台"塌回"汽车公司"——[纯汽车同业 P/S ~1–4×](https://247wallst.com/investing/2026/03/27/tesla-vs-byd-the-better-ev-stock-for-2026/) 意味着深度回撤空间（[极熊目标 $25–145](https://www.benzinga.com/quote/TSLA/analyst-ratings)，中/弱）。叠加 DOJ/SEC FSD 调查升级或合并自我交易实锤，是尾部加速器。
 
 ### 什么情况说明判断错了（kill-switch）
-1. **Robotaxi 现金收入迟迟不放量**：年底前 Cybercab 部署 <1 万辆、Austin 单位经济跑不通 → 占市值约 $1T 的非汽车估值无近期盈利锚。
-2. **汽车毛利跌回 18% 以下**：Q2 清库存被迫降价 + 积分 <$300M/季 → "毛利复苏"叙事破。
-3. **Musk 把主要精力转向 xAI/X**：若 Q3 披露其投入 Tesla <50% 工作时间 → $56B 薪酬的人力资本理由崩，机构可能逼宫治理重整。
-4. **美/欧份额继续下滑** → `core_customer_loss` 从"严重惩罚"升级为**红线封顶**。
+- **正向证伪（判断太保守）**：Cybercab/Robotaxi 2026 内提前放量并贡献可见收入（管理层指引 2027 才 material），把期权价值兑现 → 推翻"故事尚未变现"。
+- **负向证伪（判断太乐观）**：DOJ/SEC FSD 营销欺诈调查升级为正式起诉/处罚 → 可能触发 `accounting_fraud_suspicion` 红线，结论从"回避"转为"红线封顶"。
+- **基本面证伪**：汽车毛利剔除一次性后回到 17–18% 并继续走低、Q2 交付再 miss → `unit_economics_profit_path` 与 `revenue_growth_durability` 应下调。
 
 ## 结论复述 + 下一步要核实 + 催化/日历
 
 ### 结论复述
-中等的生意（质量 54）+ 几乎完美的定价（买点 20）+ 治理/监管/竞争/品牌四重风险（惩罚 −42）＝ **现价回避**。等估值大幅回落、或 Robotaxi 真正放量验证单位经济，再重新评估——现在这个价＋这些风险不值得追。
+Tesla 是一家**护城河多重的好公司（质量分 65）**，但在三件事上同时承压：① **买点差（28）**——~$1.50 万亿市值、P/S 15×、PEG 8× 几乎全押尚未变现（2027 才指引 material）的 Robotaxi/Optimus 期权；② **治理与监管双 4 分惩罚**——$1 万亿薪酬 + $5.73 亿关联交易 + 四项 NHTSA + DOJ/SEC FSD 调查，合计扣 16 分把总分压到 23.6；③ **基本面 vs 股价负向背离**——当季 beat 但股价 YTD -11.86%、距高点回撤震荡，市场在重估增长持续性与治理可信度。红线未触发但 `accounting_fraud_suspicion` 最接近。**质量好、买点差、风险重 → 现价回避**，等期权变现或估值 reset 再评估。
 
-### 下一步要核实
-| # | 待核实项 | 为什么没查到 | 查证路径 |
+### 下一步要核实（仅限闭环后仍真正不可得项）
+| # | 仍不可得项 | 为什么不可得（已试过的取证路） | 何时 / 怎样才能拿到 |
 |---|---|---|---|
-| 1 | 期权 skew / 25-delta 风险反转、财报隐含跳空 | 需实时期权终端，公开页未稳定 | optioncharts.io/options/TSLA/volatility-skew；Market Chameleon TSLA 财报页 |
-| 2 | Q2 2026 财报确切日期 | 两源冲突（7/22 vs 7/29） | ir.tesla.com 财报日历 |
-| 3 | NHTSA 320 万辆 FSD 工程分析结论 | 调查进行中，尚无结果 | nhtsa.gov 调查页 + Tesla 8-K |
-| 4 | Robotaxi 扩城实际进度与车队规模 | 公司仅给目标城市、无确认日期 | Tesla IR / 各州监管批文 |
-| 5 | 净化一次性项后的真实汽车毛利 | Q1 含未拆分的保修/关税一次性项 | 待 Q2 财报（~7 月）干净季度 |
+| 1 | Q1 2026 完整 10-Q 分部毛利明细（剔除 ~$4.8 亿一次性后的干净经常性汽车毛利） | SEC EDGAR 直取 403 被挡；二手报道仅给合并数，公司不单项披露一次性金额 | Q2 2026 10-Q 发布（约 7 月底）后比对分部毛利环比；或等卖方拆解模型 |
+| 2 | DOJ/SEC FSD 欺诈调查是否升级（正式起诉/大陪审团传票） | 现仅信息收集阶段，DOJ/SEC 不预披露在途调查 | 查 DOJ 新闻稿 + SEC EDGAR 执法页；若升级即为 `accounting_fraud_suspicion` 红线触发信号 |
+| 3 | 实时期权 IV 百分位精确值、max pain | flashalpha 仅给 ~32–38% 区间、未返回数值 max pain | optioncharts.io / Market Chameleon / maximum-pain.com 实时查询（中/弱证据，随时变） |
+| 4 | $25B 资本支出按类别拆分（AI 算力 vs 工厂 vs Cybercab vs Optimus） | 总额确认但分配未公开 | 等 Q2 电话会补充材料或 10-Q 附注 |
+| 5 | Tesla-SpaceX 合并是否正式推进/付诸股东投票 | 仅媒体传言（Wedbush 估 80%），无正式公告 | 查 Tesla 8-K / DEF 14A；若成案即第四笔十亿级自我交易，治理风险升级 |
+| 6 | Q2 2026 交付与中国/欧洲零售（需求复苏是否兑现） | 未来事件，尚未发生 | Q2 交付报告（约 7 月初）；Goldman 估 420K vs 共识 400K |
 
 ### 催化 / 日历
 | 日期 / 窗口 | 事件 | 类型 | 强度 |
 |---|---|---|:--:|
-| **2026-06-16/17** | [FOMC 议息](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm)（高估值成长股对利率敏感） | 宏观 | 强 |
-| **~2026-07-02** | Q2 交付与产量报告（库存悬念验证点） | 业绩节奏 | 中 |
-| **~2026-07** | FSD v15 重写推送（Robotaxi 放量前提） | 产品/技术 | 中 |
-| **~2026-07-22/29** | Q2 2026 财报（日期待核实） | 业绩节奏 | 强 |
-| **2026-07-28/29** | [FOMC 议息](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm) | 宏观 | 强 |
-| **2026 7 月底/8 月** | [Optimus V3 发布/产线启动](https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/) | 产品/技术 | 中 |
-| **~2026 年中后** | Robotaxi 扩城（Phoenix/Miami/Vegas 等，可能滑期） | 产品/监管 | 中/弱 |
-| **2026 H2** | 年度股东大会（日期 TBD）；NHTSA 工程分析结论 | 治理/监管 | 中 |
-| **~2028 / ~2033** | 2018 薪酬期权可行权 / 股份可卖出 | 筹码面 | 弱 |
+| 2026 年 7 月初 | Q2 2026 交付报告（Goldman 420K vs 共识 400K，欧洲 +85–90% 抵消美国弱） | 业绩预告/交付 | 强 |
+| 约 2026-07-22（待核实） | Q2 2026 财报 + 电话会（资本支出分配/FCF/Robotaxi 进度） | 财报 | 强 |
+| 2026 年夏（7 月底–8 月） | Optimus V3 demo + Fremont 量产启动 | 产品/量产 | 中 |
+| 2026 H2 | Cybercab 全面上线 + Robotaxi 扩至"约十几个州" | 产品/服务扩张 | 中 |
+| 进行中 | DOJ/SEC FSD 欺诈调查、四项 NHTSA 调查进展 | 监管 | 强 |
+| 进行中 | Tesla-SpaceX 合并讨论（Wedbush 估 80% 概率）/ SpaceX IPO | 重大交易/治理 | 中 |
+| 2028-01 / 2033 | Musk 行权股解禁（2028 锁定到期）+ 5 年限售到期 | 解禁/筹码面 | 中 |
+| 进行中 | 美国 EV 税收抵免取消后需求 + 关税/中国地缘 | 政策/地缘 | 强 |
+| 进行中 | BYD/GM/Rivian/Waymo 竞品发布与价格战 | 竞品 | 中 |
 
-## 证据与来源（强/中/弱）
-- Q1 2026 业绩（$22.39B、EPS $0.41、GM 21.1%）— [Electrek](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-financial-results/) / [TIKR](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative) — **强**
-- 交付 358K/库存 50K — [CNBC](https://www.cnbc.com/2026/04/02/tesla-tsla-q1-2026-vehicle-delivery-production.html) — **强**
-- 一次性保修/关税项 — [Electrek](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-one-time-benefits-warranty-tariff-refunds-margins/) — **中**
-- 估值（P/E、P/S、PEG、目标价）— [StockAnalysis 统计](https://stockanalysis.com/stocks/tsla/statistics/) / [预测](https://stockanalysis.com/stocks/tsla/forecast/) — **强**
-- 欧洲 -44% / 美国份额新低 — [Electrek](https://electrek.co/2026/02/02/tesla-tsla-cant-find-bottom-europe-2026-brutal-decline/) / [US News](https://www.usnews.com/news/business/articles/2026-04-02/tesla-sales-rise-after-brutal-year-of-musk-boycotts-but-still-fall-short-of-expectations) — **强**
-- NHTSA 320 万辆工程分析 — [Insurance Journal](https://www.insurancejournal.com/news/national/2026/03/20/862650.htm) — **强**
-- $25B capex / -$8.5B FCF — [TechCrunch](https://techcrunch.com/2026/04/22/tesla-just-increased-its-capex-to-25b-heres-where-the-money-is-going/) — **强**
-- $56B/2018 奖励 S-8 与锁定 — [Electrek](https://electrek.co/2026/04/27/tesla-files-deliver-elon-musk-56-billion-pay-package-shares/) / [SEC S-8](https://www.sec.gov/Archives/edgar/data/1318605/000162828026026551/tsla-20260422.htm) — **强**
-- DCF/GF Value 深度高估 — [Alpha Spread](https://www.alphaspread.com/security/nasdaq/tsla/dcf-valuation/base-case) / [GuruFocus](https://www.gurufocus.com/term/forward-pe-ratio/TSLA) — **中**
-- 期权 IV/PC — [AlphaQuery](https://www.alphaquery.com/stock/TSLA/volatility-option-statistics/30-day/iv-mean) — **中/弱**
-- skew / 财报隐含跳空 / Q2 确切日期 — **待核实**
-
-> 研究判断，不构成交易建议；是否买入由你决定。各因子打分基于上述联网取证，价格/数据随时变动，关键项请在下单前自行复核。
+## 证据与来源
+- Q1 2026 总营收 $22.387B（+15.8% YoY）、毛利率 21.1%（5 季最高）、调整后 EPS $0.41（+52%）— [evwire Q1 2026 财报](https://evwire.com/p/tesla-tsla-q1-2026-earnings-results) / [teslarati](https://www.teslarati.com/tesla-tsla-q1-2026-earnings-results/) — 强
+- FY2025 总收入 $94.83B（-3% YoY，上市以来首次年降）— [Yahoo Finance](https://finance.yahoo.com/news/tesla-revenue-slips-2025-energy-163645200.html) — 强
+- FY2025 分部：汽车 $69.53B（-9.8%）/ 能源 $12.77B（+26.6%）/ 服务 $12.53B（+19.0%）— [bullfincher](https://bullfincher.io/companies/tesla/revenue-by-segment) — 强
+- Q1 2026 交付 358,023（+6%）、生产 408,386（+13%）、产销缺口 5 万辆、库存天数 15→27 — [electrek 交付](https://electrek.co/2026/04/02/tesla-tsla-q1-2026-delivery-results-misses-expectations/) / [stocktitan 10-Q](https://www.stocktitan.net/sec-filings/TSLA/10-q-tesla-inc-quarterly-earnings-report-7f5462f3d917.html) — 强
+- FY2025 交付 163.6 万（-8.6%）、BYD 全球 BEV 226 万超越 — [electrek BYD 夺冠](https://electrek.co/2026/01/02/byd-crushes-tesla-all-electric-sales-for-2025-secures-global-bev-crown/) — 强
+- FSD 活跃订阅 128 万（+51%）、ARR ~$5.46 亿、2026-02 转纯订阅 $99/月 — [basenor](https://www.basenor.com/blogs/news/tesla-fsd-hits-1-28m-subscribers-in-q1-2026-record-growth) / [notateslaapp ARR](https://www.notateslaapp.com/news/4042/tesla-hits-546-million-in-annual-recurring-revenue-from-fsd-subscriptions) — 中
+- 资本支出指引上调至"超 $25B"、Q2–Q4 FCF 转负、全年 FCF ~-$8.5B — [Foreign Policy Journal 电话会](https://www.foreignpolicyjournal.com/2026/04/24/tesla-tsla-earnings-call-reveals-25-billion-capex-plan-for-ai-optimus-robots-and-cybercab-as-stock-retreats/) / [tikr FCF](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative) — 强
+- 剔除碳积分汽车毛利 19.2%（vs Q1'25 12.5%）、碳积分 $380M（-30% QoQ）、SBC $1.03B、$9.97B 未确认 CEO 奖励 — [SEC 10-Q（CIK 1318605）](https://www.sec.gov/Archives/edgar/data/0001318605/000162828026026673/tsla-20260331.htm) / [CNBC](https://www.cnbc.com/2026/04/22/tesla-tsla-q1-2026-earnings-report.html) — 强
+- Q1 毛利含 ~$4.8 亿一次性（关税退款 + 质保拨回）— [electrek 一次性项](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-one-time-benefits-warranty-tariff-refunds-margins/) — 中
+- 能源 Q1'26 部署 8.8 GWh（环比 -38%、同比 -15%）、毛利率 39.5%（含一次性）— [electrek 财务](https://electrek.co/2026/04/22/tesla-tsla-q1-2026-financial-results/) / [teslaacessories 能源](https://www.teslaacessories.com/blogs/news/tesla-energy-q1-2026-update-megapack-deployments-surge-to-record-highs-as-utility-scale-storage-transforms-the-grid) — 强/中
+- Musk 指引 Robotaxi 2026 不 material、2027 才显著；HW3 永久无缘无监督 FSD — [notateslaapp 电话会](https://www.notateslaapp.com/news/4031/everything-tesla-announced-during-its-q1-2026-earnings-call-summaryrecap) / [shacknews transcript](https://www.shacknews.com/article/148805/tesla-tsla-q1-2026-earnings-call-transcript) — 强
+- Cybercab 2026-04 量产、Austin 等城商业运营 — [basenor Cybercab](https://www.basenor.com/blogs/news/tesla-cybercab-production-starts-april-2026-the-autonomous-era-begins) — 中
+- 估值倍数：P/S 15.3×、EV/EBITDA 133×、前瞻 P/E ~194×、PEG ~8×、净现金 $28.85B、EV $1,471B — [stockanalysis 统计](https://stockanalysis.com/stocks/tsla/statistics/) / [gurufocus mktcap](https://www.gurufocus.com/term/mktcap/TSLA) — 强
+- Rule-of-40 ~12、2026 收入共识 ~$102–105B（~8% 增速）— [tikr](https://www.tikr.com/blog/tesla-q1-2026-earnings-revenue-up-16-eps-up-52-but-free-cash-flow-turns-negative) / [stockanalysis 预测](https://stockanalysis.com/stocks/tsla/forecast/) — 中
+- 历史 P/S：2022 年增速 51% 时仅 4.77× vs 今天 8% 增速给 15.3× — [companiesmarketcap](https://companiesmarketcap.com/tesla/ps-ratio/) — 中
+- 同业 P/S：BYD ~1×、Rivian ~4× — [247wallst](https://247wallst.com/investing/2026/03/27/tesla-vs-byd-the-better-ev-stock-for-2026/) — 中
+- 反向 DCF：须 15 年 FCF CAGR ~38–40% 桥接当前 EV — [tradingkey 估值](https://www.tradingkey.com/analysis/stocks/us-stocks/261732341-tesla-2026-stock-analysis-ai-robotaxi-valuation-tradingkey) — 弱
+- 共识"持有"、均值目标 ~$395–420、区间 $25–$600 — [stockanalysis 评级](https://stockanalysis.com/stocks/tsla/ratings/) / [Benzinga](https://www.benzinga.com/quote/TSLA/analyst-ratings) — 中
+- 股价 ~$400、52 周 $288.77–$498.83、距高点回撤 ~20% — [capital.com](https://capital.com/en-int/market-updates/tesla-stock-forecast-03-06-2026) — 中
+- 治理：董事会"严重瑕疵"、主席 $6.82 亿薪酬、$5.73 亿关联交易、$2B xAI→SpaceX、$1 万亿薪酬方案、$145 亿诉讼 — [Corp Gov Institute](https://www.thecorporategovernanceinstitute.com/insights/news-analysis/teslas-governance-nightmare/) / [electrek 关联交易](https://electrek.co/2026/05/01/tesla-tsla-web-transactions-musk-companies-spacex-xai-10ka-2025/) / [SEC PX14A6G](https://www.sec.gov/Archives/edgar/data/0001318605/000121465925015361/o1027253px14a6g.htm) / [CNBC 薪酬](https://www.cnbc.com/2025/11/06/tesla-shareholders-musk-pay.html) / [electrek 诉讼](https://electrek.co/2026/04/16/tesla-facing-up-to-14-billion-lawsuits-deep-dive/) — 强/中
+- 监管：NHTSA FSD 涉 290 万辆、门把手调查、DOJ/SEC FSD 欺诈调查、$7,500 抵免取消、欧洲 -17%、中国 -45% — [mlq.ai NHTSA](https://mlq.ai/news/nhtsa-launches-federal-probe-into-teslas-full-self-driving-for-traffic-violations/) / [Yahoo 门把手](https://finance.yahoo.com/news/tesla-faces-investigation-over-door-140001111.html) / [news-articles DOJ/SEC](https://automotive-transportation.news-articles.net/content/2026/05/05/tesla-faces-federal-probes-over-potential-fsd-fraud.html) / [investing 抵免](https://www.investing.com/news/stock-market-news/teslas-firstquarter-deliveries-miss-estimates-as-tax-credit-expiry-weighs-4595678) / [CNBC 欧洲](https://www.cnbc.com/2026/02/24/tesla-car-sales-elon-musk-europe-autos-trump-evs.html) / [electrek 中国](https://electrek.co/2026/02/12/tesla-tsla-sales-in-china-crash-45-to-lowest-level-in-over-three-years/) — 强/中
+- 美国 EV 份额 49%→46%、GM 13.2% — [cleantechnica](https://cleantechnica.com/2026/02/04/tesla-had-46-of-us-ev-market-in-2025-down-from-49-in-2024-gm-13-ford-7/) — 强
+- BYD 4.27M（2024）/ 2.26M BEV（2025）、电池专利 1,117 vs 97、产能 5.82M vs 2.5M — [driveauthority](https://driveauthority.com/tesla-vs-byd-the-real-battle-for-ev-dominance/) / [evboosters 产能](https://evboosters.com/ev-charging-news/tesla-vs-byd-a-battle-of-global-production-capacity/) — 中
+- Waymo 1,400 万次全自动行程、收入 $2.86 亿 — [programming-helper](https://www.programming-helper.com/tech/waymo-tesla-robotaxi-race-autonomous-vehicle-market-2026) — 中
+- 4680 干电极成最低成本电芯、单车 COGS <$35K — [nextbigfuture](https://www.nextbigfuture.com/2026/03/tesla-making-lower-cost-batteries-and-cars-late-in-2026-and-in-2027.html) — 中
+- Supercharger NACS $20B 长期收入潜力、~79,900 接头 — [teslarati NACS](https://www.teslarati.com/tesla-tsla-20b-revenue-access-supercharger-nacs-deal-dan-ives/) / [teslaacessories 充电](https://www.teslaacessories.com/blogs/news/supercharging-in-2026-how-tesla%E2%80%99s-network-is-reshaping-ev-ownership-in-the-us-and-europe) — 弱/中
+- 收入地理：美国 48.9% / 中国 22.1% / 其他 27.7% — [metricshour](https://metricshour.com/blog/tesla-revenue-by-country-how-exposed-is-tsla-to-china-and-europe/) — 强
+- Musk 任职 2008（CEO）/2004（董事会）、持股 ~15.3–16% — [Tesla IR](https://ir.tesla.com/corporate/elon-musk) / [capital.com 持股](https://capital.com/en-int/analysis/tesla-shareholder-who-owns-the-most-tsla-stock) — 强
+- FSD/Robotaxi 时间表连环跳票（L5 2019、百万 Robotaxi 2020、无监督 FSD 2025）— [Wikipedia 预测清单](https://en.wikipedia.org/wiki/List_of_predictions_for_autonomous_Tesla_vehicles_by_Elon_Musk) — 强
+- Austin Robotaxi 启动仅 ~36 辆且有安全员 — [insideevs](https://insideevs.com/news/785220/tesla-robotaxi-austin-no-safety-monitor/) — 中
+- 2025 CEO 薪酬方案 $1 万亿/4.237 亿股（ISS/GL 反对）— [SEC 薪酬协议附件](https://www.sec.gov/Archives/edgar/data/0001318605/000110465925108507/tm2530590d1_ex10-2.htm) / [CNBC](https://www.cnbc.com/2025/11/06/tesla-shareholders-musk-pay.html) — 强
+- 2024-04 高管出走潮（SVP Baglino + 3 VP）— [Bloomberg](https://www.bloomberg.com/news/articles/2024-04-15/tesla-executive-baglino-leaves-as-musk-loses-another-top-deputy) — 强
+- Tesla-SpaceX 合并讨论（Wedbush 估 80%）— [CNBC 合并](https://www.cnbc.com/2026/05/26/spacex-tesla-merger-chatter-reignites-as-musk-rocket-company-nears-ipo.html) — 中
+- Musk 2026-06 行权 3.04 亿份期权零卖出、锁定至 2028/2033 — [stocktitan Form 4](https://www.stocktitan.net/sec-filings/TSLA/form-4-tesla-inc-insider-trading-activity-7416f9cbe52a.html) — 强
+- 董事级减持 ~$1.64 亿（多例行）、空头 2.56% 流通盘 — [marketbeat 内部交易](https://www.marketbeat.com/stocks/NASDAQ/TSLA/insider-trades/) / [marketbeat 空头](https://www.marketbeat.com/stocks/NASDAQ/TSLA/short-interest/) — 中
+- 机构持股 66.2%、12 个月净流入 +$56 亿；JPMorgan $145 极熊目标 — [marketbeat 机构](https://www.marketbeat.com/stocks/NASDAQ/TSLA/institutional-ownership/) / [electrek JPM](https://electrek.co/2026/04/08/tesla-jpmorgan-145-price-target-60-percent-downside/) — 中
+- 期权：ATM IV ~40–41.7%、IV Rank ~32–38%、put/call OI ~0.9、$400 call wall — [flashalpha](https://flashalpha.com/stock/tsla) / [barchart put/call](https://www.barchart.com/stocks/quotes/TSLA/put-call-ratios) / [insiderfinance 隐含波动](https://www.insiderfinance.io/news/tesla-q1-2026-earnings-margins-and-inventory-risk) — 中/弱
+- 员工 100,883 — [sqmagazine](https://sqmagazine.co.uk/how-many-people-work-at-tesla/) — 中
+- 全球 EV 渗透率 ~19.8%、美国 BEV 5.5% — [recharged](https://recharged.com/articles/ev-sales-statistics-2026) — 中
+- IEA 电网储能 2030 需扩 35× — [IEA](https://www.iea.org/energy-system/electricity/grid-scale-storage) — 中
+- Robotaxi/人形机器人 TAM（投机）— [nasdaq Robotaxi](https://www.nasdaq.com/articles/one-analyst-thinks-teslas-robotaxi-revenue-could-soar-250-billion-2035-here-are-3-things) / [adamasintel 人形](https://www.adamasintel.com/tesla-could-capture-half-the-humanoid-robot-market-in-the-us-by-2027/) — 弱
+- 台海冲突尾部情景（营收 -25%）— [Seeking Alpha](https://seekingalpha.com/article/4773550-tesla-will-survive-a-trade-war-but-a-taiwan-conflict-would-be-perilous) — 弱
+- 财报后反应：盘后 +4% 回吐、次日 -3.56% — [tikr 股价](https://www.tikr.com/blog/tesla-q1-2026-earnings-beat-so-why-did-the-stock-fall-3-56) — 中
+- 碳积分 FY2025 $1.99B（-28% YoY）— [SEC 10-K（CIK 1318605）](https://www.sec.gov/Archives/edgar/data/0001318605/000162828026003952/tsla-20251231.htm) — 强
+- Live MCP 价格快照（收盘 $396.38、52 周 $288.77–$498.83、YTD -11.86%、IV 41.4%）— Live MCP price snapshot（IBKR contract 76792991, NASDAQ）— 强
