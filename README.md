@@ -34,6 +34,8 @@
 
 样例见 [`.claude/skills/single-stock-analyze/examples/tsla-demo.md`](.claude/skills/single-stock-analyze/examples/tsla-demo.md)（TSLA 真实走查）。
 
+完成的 Markdown 报告可导出为带目录、页码和统计图的 A4 PDF。见[安装与导出说明](.claude/skills/single-stock-analyze/references/pdf-export.md)。
+
 ### 工作原理
 **fan-out → synthesize**：并行分派 8 个研究子代理（公司画像 / 财报 / 增长 / 护城河+单位经济 / 估值 / 风险 / 筹码面+期权 / 管理层），各自联网取证，再由综合代理跑评分卡、写结论。无多 agent 能力时自动单 agent 顺序兜底。评分卡是个独立可复现的 Python 脚本（`scripts/growth_scorecard.py`）。
 

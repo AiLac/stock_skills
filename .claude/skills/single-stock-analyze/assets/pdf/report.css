@@ -1,0 +1,89 @@
+@page {
+  size: A4 portrait;
+  margin: 16mm 17mm 19mm;
+  @bottom-right {
+    content: counter(page) "  /  " counter(pages);
+    font: 9pt "DejaVu Sans", Arial, sans-serif;
+    color: #435a65;
+    vertical-align: middle;
+  }
+}
+
+:root {
+  --ink: #172d37;
+  --teal: #12675f;
+  --muted: #41585f;
+  --rule: #c4d2d1;
+  --wash: #edf5f2;
+  --sans: "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", "DejaVu Sans", sans-serif;
+  --serif: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "SimSun", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: white;
+  font: 10.4pt/1.65 var(--sans);
+  font-variant-numeric: lining-nums tabular-nums;
+  overflow-wrap: anywhere;
+}
+html:lang(en) { --sans: "DejaVu Sans", "Arial", "Noto Sans CJK SC", sans-serif; --serif: Georgia, "DejaVu Serif", "Noto Serif CJK SC", serif; }
+.zh, html:lang(zh) .en { display: none; }
+html:lang(zh) .zh { display: inline; }
+
+.masthead { border-top: 2.1mm solid var(--ink); padding: 3mm 0 4mm; }
+.masthead-label { margin: 0 0 1.6mm; font-size: 9pt; font-weight: 700; letter-spacing: .12em; color: var(--teal); }
+h1 { margin: 0; font: 700 27pt/1.35 var(--serif); }
+.contents { border-top: .25mm solid var(--rule); border-bottom: .25mm solid var(--rule); padding: 2.3mm 0 3.2mm; margin: 0 0 5mm; break-inside: avoid; }
+.contents h2 { margin: 0 0 1.3mm; font: 700 9pt/1.5 var(--sans); color: var(--muted); }
+.contents-links { column-count: 3; column-gap: 5mm; column-rule: .18mm solid var(--rule); }
+.contents a { display: block; position: relative; padding: .4mm 0 .4mm 2.4em; font-size: 8.6pt; line-height: 1.5; color: var(--ink); text-decoration: none; break-inside: avoid; }
+.contents a span { position: absolute; left: 0; color: var(--teal); font-weight: 700; }
+
+.report-section { margin: 5.6mm 0 0; }
+.report-section h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 2.8mm;
+  margin: 0 0 2.3mm;
+  padding-top: 2.2mm;
+  border-top: .4mm solid var(--ink);
+  font: 700 16pt/1.4 var(--serif);
+}
+.section-number { color: var(--teal); font: 700 11pt/1 var(--sans); }
+h3 { margin: 3.4mm 0 1mm; color: var(--teal); font: 700 11.5pt/1.48 var(--sans); }
+h4, h5, h6 { margin: 2.5mm 0 1mm; font: 700 10.2pt/1.5 var(--sans); }
+h1, h2, h3, h4, h5, h6, caption { break-after: avoid; }
+p { margin: 0 0 1.75mm; orphans: 2; widows: 2; }
+strong { font-weight: 700; }
+a { color: #175d70; text-decoration-thickness: .15mm; text-underline-offset: .18em; }
+ol, ul { margin: 1mm 0 2.5mm; padding-inline-start: 1.55em; }
+li { margin: .65mm 0; }
+li::marker { color: var(--teal); }
+li p:last-child, td p:last-child, blockquote p:last-child { margin-bottom: 0; }
+blockquote { margin: 2.5mm 0; padding: 1.7mm 3mm; border-left: .8mm solid var(--teal); color: var(--muted); background: var(--wash); }
+hr { border: 0; border-top: .25mm solid var(--rule); margin: 3mm 0; }
+pre, code { font-family: "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace; font-size: .92em; }
+code { white-space: pre-wrap; overflow-wrap: anywhere; }
+pre { white-space: pre-wrap; padding: 2mm; background: #f2f5f5; }
+
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 9pt; line-height: 1.46; }
+thead { display: table-header-group; }
+th, td { padding: 1.55mm 1.65mm; vertical-align: top; text-align: start; border-bottom: .18mm solid var(--rule); }
+th { background: var(--ink); color: white; font-weight: 600; }
+tbody tr:nth-child(even) { background: #f3f7f6; }
+tbody tr { break-inside: avoid; }
+th[align="right"], td[align="right"] { text-align: right; }
+th[align="center"], td[align="center"] { text-align: center; }
+caption, figcaption { color: var(--muted); font-weight: 600; text-align: start; }
+img, svg { max-width: 100%; }
+figure { margin: 2.7mm 0; }
+.data-figure { padding: 2.6mm 3.4mm; background: #f4f8f7; border-left: .7mm solid var(--teal); break-inside: avoid; }
+.data-figure figcaption { margin: 0 0 1.5mm; font-size: 9.2pt; color: var(--ink); }
+.data-figure svg { display: block; }
+
+@media screen {
+  html { background: #e8edec; }
+  body { max-width: 210mm; padding: 16mm 17mm 19mm; margin: 6mm auto; }
+}
