@@ -10,6 +10,8 @@
         "Output leads with an explicit verdict (值得投资 / 观望 / 回避 or 强信心值得投资).",
         "Includes a scorecard with the 8 factors and a dual-axis (质量分 + 买点分).",
         "Has a 最近财报 section covering growth + guidance.",
+        "Explains what a customer buys and how they are charged. For the stated reporting period, revenue rows reconcile to consolidated revenue, including eliminations where applicable. Material non-recurring amounts are identified within their parent category.",
+        "Explains what the main reported expenses pay for and how cash capex and operating cash flow compare. Tables identify period, currency, units and sources. Embedded depreciation or stock compensation is counted once, and undisclosed product or capex splits are labeled.",
         "Has a 风险与利空 section that includes 资金面 (解禁/增发/内部人卖出/降评级) and an 期权市场 read.",
         "Claims carry evidence labels (强/中/弱/待核实); no invented exact figures presented as fact."
       ]
